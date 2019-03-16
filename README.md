@@ -1,0 +1,31 @@
+# the-shrine-ng
+
+> the shrine, 21st century edition
+
+But why?
+
+Well, to:
+
+- [x] save the [original shrine](http://theshrine.de) from becoming history due to technical advancements.
+- [x] allow everyone to contribute to the project.
+- [x] keep the authentic design (for now), but make it usable on small screens.
+- [_] allow it to be used offline.
+
+## Build Setup
+
+``` bash
+# install dependencies
+$ yarn install
+
+# serve with hot reload at localhost:3000
+$ yarn run dev
+
+# build for production and launch server
+$ yarn run build
+$ yarn start
+
+# generate static project
+$ yarn run generate
+```
+
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

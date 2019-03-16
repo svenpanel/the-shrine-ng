@@ -1,0 +1,10 @@
+$color-background: #000;
+$color-primary: #fefefe;
+$color-red: #ec0101;
+
+$breakpoint-medium: 600px;
+
+@mixin text-glow() {
+  text-shadow: 0 0 0.4rem rgba($color-red, 0.9);
+  color: $color-red;
+}

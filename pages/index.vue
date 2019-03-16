@@ -1,0 +1,233 @@
+<template>
+  <section class="index">
+    <div class="index__shrine">
+      <h1 class="index__headline">
+        <span>
+          The Shrine
+          <sub>new generation</sub>
+        </span>
+      </h1>
+      <div class="index__sounds">
+        <div v-for="sound in sounds" :key="sound.file" class="index__sound" @click="soundsToPlay.push(sound)">
+          <div class="index__sound-name">
+            {{ sound.name }}
+          </div>
+          <div>
+            <span class="index__sound-knob" />
+          </div>
+        </div>
+
+        <div class="index__sound" />
+        <div class="index__sound" />
+        <div class="index__sound" />
+        <div class="index__sound" />
+        <div class="index__sound" />
+        <div class="index__sound" />
+      </div>
+    </div>
+
+    <div class="index__content">
+      <p>
+        The idea and the recordings come from <em>cobuss</em> who initially build
+        the
+        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">svenpanel</a>. Thank you, cobuss!
+      </p>
+      <p>
+        This "next generation" version of
+        <em>the shrine</em>
+        works without flash, also on your mobile.
+        <br>
+        <a href="#">Contributions to this project are welcome.</a>
+      </p>
+    </div>
+
+    <!-- we need to support playing multiple sounds at the same time. for the lulz. -->
+    <Player v-for="(sound, soundIndex) in soundsToPlay" :key="[soundIndex, sound.file].join()" :current-sound="sound" />
+  </section>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import Player from '@/components/Player'
+
+export default {
+  components: {
+    Player
+  },
+  data() {
+    return {
+      soundsToPlay: [],
+      currentSound: null
+    }
+  },
+  computed: {
+    ...mapState({
+      sounds: state => state.sounds.index
+    })
+  }
+}
+</script>
+
+<style lang="scss">
+$shrine-background: #777;
+$shrine-border-color: #333;
+$knob-color: darken($shrine-background, 20);
+$padding: 1rem;
+$content-background-color: #111;
+
+.index {
+  width: 100%;
+  max-width: 95vw;
+  margin: 0.1rem auto;
+  padding: 0 0.5rem;
+  color: $color-primary;
+}
+
+.index__shrine {
+  box-shadow: 0 0 1rem rgba($shrine-background, 0.7);
+  border-radius: 2px;
+  border-color: $shrine-border-color;
+  background-color: $shrine-background;
+}
+
+.index__headline {
+  padding: 1rem $padding 0;
+  text-align: center;
+  line-height: 1;
+  margin: 1.5rem auto 3rem;
+}
+
+.index__headline span {
+  @include text-glow();
+
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 0.75rem 1rem 0.5rem;
+  display: inline-block;
+  background-color: $color-background;
+  letter-spacing: 0.2rem;
+  border: 0.4rem outset $knob-color;
+}
+
+@keyframes blinker {
+  50% {
+    color: #fff;
+  }
+}
+
+.index__headline sub {
+  font-style: italic;
+  transform: rotate(-10.6deg);
+  display: inline-block;
+  margin-left: -2.5rem;
+  padding-top: 1rem;
+  color: rgba(#fff, 0.75);
+  letter-spacing: -0.05rem;
+  animation: blinker  1.5s ease-out infinite;
+}
+
+.index__sounds {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: 0 $padding;
+}
+
+.index__sound {
+  margin: 0 0 0.25rem;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: border 0.2s;
+}
+
+.index__sound-name {
+  @include text-glow();
+
+  border: 0.4rem outset rgba($knob-color, 0.25);
+  background-color: $color-background;
+  min-height: 3.6rem;
+  hyphens: auto;
+  line-height: 1.1;
+  letter-spacing: 0.025rem;
+  font-style: italic;
+  padding: 0.5rem 0.15rem;
+  margin-bottom: 0.25rem;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.index__sound:hover .index__sound-name {
+  border-style: inset;
+}
+
+.index__sound-knob {
+  margin: 0 auto 1rem;
+  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
+  box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
+  border: 1px solid rgba($knob-color, 0.7);
+  border-radius: 50%;
+  display: block;
+  height: 2rem;
+  width: 2rem;
+  transition: background 0.3s ease-in;
+}
+
+.index__sound:hover .index__sound-knob {
+  background: linear-gradient(175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
+}
+
+.index__content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 4rem 0;
+  padding: 1rem;
+  background-color: $content-background-color;
+}
+
+.index__content p {
+  max-width: 50rem;
+  line-height: 1.61;
+  margin: 0 auto;
+}
+
+.index__content a {
+  color: rgba($color-red, 0.9);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+$itemsPerRow: (
+  'min-width: 801px': 12%,
+  'max-width: 800px': 16%,
+  'max-width: 700px': 33%,
+  'max-width: 480px': 49%,
+  'max-width: 240px': 100%
+);
+
+@each $query, $width in $itemsPerRow {
+  @media (#{$query}) {
+    .index__sound {
+      flex: 1 1 #{$width};
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .index__sound {
+    margin: auto 0.5%;
+  }
+
+  .index__sound-knob {
+    display: none;
+  }
+}
+</style>

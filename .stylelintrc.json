@@ -1,0 +1,7 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-recommended-scss"],
+  "rules": {
+    "function-comma-space-after": "always",
+    "no-descending-specificity": null
+  }
+}
