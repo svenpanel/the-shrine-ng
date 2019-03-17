@@ -4,18 +4,18 @@
       <h1 class="index__headline">
         <span>
           The Shrine
-          <sub>new generation</sub>
+          <sub>next generation</sub>
         </span>
       </h1>
-      <div class="index__sounds">
-        <div v-for="sound in sounds" :key="sound.file" class="index__sound" @click="soundsToPlay.push(sound)">
+      <main class="index__sounds">
+        <article v-for="sound in sounds" :key="sound.file" class="index__sound" @click="soundsToPlay.push(sound)">
           <div class="index__sound-name">
             {{ sound.name }}
           </div>
           <div>
             <span class="index__sound-knob" />
           </div>
-        </div>
+        </article>
 
         <div class="index__sound" />
         <div class="index__sound" />
@@ -23,26 +23,33 @@
         <div class="index__sound" />
         <div class="index__sound" />
         <div class="index__sound" />
-      </div>
+      </main>
     </div>
 
     <div class="index__content">
       <p>
         The idea and the recordings come from <em>cobuss</em> who initially build
         the
-        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">svenpanel</a>. Thank you, cobuss!
+        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">svenpanel</a>.
+        Thank you, cobuss!
       </p>
       <p>
         This "next generation" version of
         <em>the shrine</em>
         works without flash, also on your mobile.
         <br>
-        <a href="#">Contributions to this project are welcome.</a>
+        <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
+          Contributions to this project are welcome.
+        </a>
       </p>
     </div>
 
     <!-- we need to support playing multiple sounds at the same time. for the lulz. -->
-    <Player v-for="(sound, soundIndex) in soundsToPlay" :key="[soundIndex, sound.file].join()" :current-sound="sound" />
+    <Player
+      v-for="(sound, soundIndex) in soundsToPlay"
+      :key="[soundIndex, sound.file].join()"
+      :current-sound="sound"
+    />
   </section>
 </template>
 
@@ -53,6 +60,13 @@ import Player from '@/components/Player'
 export default {
   components: {
     Player
+  },
+  head() {
+    return {
+      link: this.sounds.map(function (sound) {
+        return { href: `/sounds/${sound.file}`, rel: 'prefetch' }
+      })
+    }
   },
   data() {
     return {
@@ -197,7 +211,7 @@ $content-background-color: #111;
 }
 
 .index__content a {
-  color: rgba($color-red, 0.9);
+  color: $color-red;
   text-decoration: none;
 
   &:hover {
