@@ -61,14 +61,14 @@ export default {
   components: {
     Player
   },
-  head() {
+  head () {
     return {
       link: this.sounds.map(function (sound) {
         return { href: `/sounds/${sound.file}`, rel: 'prefetch' }
       })
     }
   },
-  data() {
+  data () {
     return {
       soundsToPlay: [],
       currentSound: null
@@ -83,6 +83,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~/assets/variables.scss';
+
 $shrine-background: #777;
 $shrine-border-color: #333;
 $knob-color: darken($shrine-background, 20);

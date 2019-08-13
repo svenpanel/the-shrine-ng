@@ -10,7 +10,7 @@ export default {
     currentSound: { type: Object, required: true }
   },
   computed: {
-    src() {
+    src () {
       return ['sounds', this.currentSound.file].join('/')
     }
   }
