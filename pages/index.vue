@@ -28,19 +28,21 @@
 
     <div class="index__content">
       <p>
-        The idea and the recordings come from <em>cobuss</em> who initially build
-        the
-        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">svenpanel</a>.
-        Thank you, cobuss!
-      </p>
-      <p>
         This "next generation" version of
         <em>the shrine</em>
-        works without flash, also on your mobile.
+        aka sven panel
+        also works on your mobile and tablet.
         <br>
         <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
           Contributions to this project are welcome.
         </a>
+      </p>
+      <p>
+        The idea and the recordings come from <em>cobuss</em> who initially build
+        the <em>svenpanel</em> and called it
+        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">
+          theshrine</a>.
+        Thank you, cobuss! us
       </p>
     </div>
 

@@ -12,7 +12,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: 'The Shrine next generation',
+    title: 'The Shrine: svenpanel 🔴 next generation ',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -58,7 +58,7 @@ export default {
   },
 
   manifest: {
-    'name': 'The Shrine next generation',
+    'name': 'The Shrine: svenpanel next generation',
     'short_name': 'TheShrine NG',
     'icons': [{
       'src': '/android-chrome-192x192.png',
