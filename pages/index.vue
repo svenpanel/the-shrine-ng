@@ -42,7 +42,7 @@
         the <em>svenpanel</em> and called it
         <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">
           theshrine</a>.
-        Thank you, cobuss! us
+        Thank you, cobuss!
       </p>
     </div>
 
