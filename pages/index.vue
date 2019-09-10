@@ -233,6 +233,8 @@ $itemsPerRow: (
   @media (#{$query}) {
     .index__sound {
       flex: 1 1 #{$width};
+      margin-bottom: 0;
+      padding: 0;
     }
   }
 }
