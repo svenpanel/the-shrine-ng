@@ -183,6 +183,7 @@ $content-background-color: #111;
 
 .index__sound:hover .index__sound-name {
   border-style: inset;
+  border-color: rgba($knob-color, 0.75);
 }
 
 .index__sound-knob {
@@ -205,21 +206,25 @@ $content-background-color: #111;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   margin: 4rem 0;
   padding: 1rem;
+  border-radius: 2px;
   background-color: $content-background-color;
 }
 
 .index__content p {
-  max-width: 50rem;
+  max-width: 80ch;
   line-height: 1.61;
   margin: 0 auto;
+  color: #ccc;
 }
 
 .index__content a {
-  color: $color-red;
-  text-decoration: none;
+  color: #eee;
+  text-decoration-color: $color-red;
+  text-decoration-style: dotted;
 
   &:hover {
-    text-decoration: underline;
+    color: #fff;
+    text-decoration-style: solid;
   }
 }
 

@@ -2,6 +2,8 @@
   "extends": ["stylelint-config-standard", "stylelint-config-recommended-scss"],
   "rules": {
     "function-comma-space-after": "always",
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "declaration-block-single-line-max-declarations": 1,
+    "unit-whitelist": ["%", "rem", "deg", "px", "ch", "s", "vh", "vw", "ms", "turn"]
   }
 }
