@@ -30,7 +30,8 @@
       <p>
         This "next generation" version of
         <em>the shrine</em>
-        aka sven panel
+        aka
+        <em>sven panel</em>
         also works on your mobile and tablet.
         <br>
         <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
@@ -38,11 +39,15 @@
         </a>
       </p>
       <p>
-        The idea and the recordings come from <em>cobuss</em> who initially build
-        the <em>svenpanel</em> and called it
+        The idea and the recordings come from
+        <em>cubuss</em>
+        who initially build the
+        <em>svenpanel</em>
+        and called it
         <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">
           theshrine</a>.
-        Thank you, cobuss!
+        <br>
+        Thank you, cubuss!
       </p>
     </div>
 
