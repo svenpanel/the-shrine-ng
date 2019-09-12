@@ -26,9 +26,17 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'preload',
+        href: '/fonts/Keania_One/KeaniaOne-Regular.woff2',
+        as: 'font',
+        type: 'font/woff2',
+        crossorigin: 'true'
+      },
+      {
+        rel: 'preload',
         href: '/fonts/Keania_One/KeaniaOne-Regular.ttf',
         as: 'font',
-        crossorigin: true
+        type: 'font/ttf',
+        crossorigin: 'true'
       }
     ]
   },

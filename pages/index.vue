@@ -71,7 +71,7 @@ export default {
   head () {
     return {
       link: this.sounds.map(function (sound) {
-        return { href: `/sounds/${sound.file}`, rel: 'prefetch' }
+        return { href: `/sounds/${sound.file}`, rel: 'preload', as: 'audio' }
       })
     }
   },
