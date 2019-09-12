@@ -117,6 +117,7 @@ $shrine-border-color: #333;
 $knob-color: darken($shrine-background, 20);
 $padding: 1rem;
 $content-background-color: #111;
+$color-white: #fff;
 
 .index {
   width: 100%;
@@ -130,7 +131,13 @@ $content-background-color: #111;
   box-shadow: 0 0 1rem rgba($shrine-background, 0.7);
   border-radius: 2px;
   border-color: $shrine-border-color;
+  background:
+    radial-gradient(rgba($shrine-border-color, 0.25) 15%, transparent 16%) 0 0,
+    radial-gradient(rgba($shrine-border-color, 0.25) 15%, transparent 16%) 0.5rem 0.5rem,
+    radial-gradient(rgba($color-white, 0.1) 15%, transparent 20%) 0 0.05rem,
+    radial-gradient(rgba($color-white, 0.1) 15%, transparent 20%) 0.5rem 0.55rem;
   background-color: $shrine-background;
+  background-size: 0.75rem 0.75rem;
 }
 
 .index__headline {
@@ -154,7 +161,7 @@ $content-background-color: #111;
 
 @keyframes blinker {
   50% {
-    color: #fff;
+    color: $color-white;
   }
 }
 
@@ -164,7 +171,7 @@ $content-background-color: #111;
   display: inline-block;
   margin-left: -2.5rem;
   padding-top: 1rem;
-  color: rgba(#fff, 0.75);
+  color: rgba($color-white, 0.75);
   letter-spacing: -0.05rem;
   animation: blinker 1.5s ease-out infinite;
 }
@@ -187,8 +194,7 @@ $content-background-color: #111;
 }
 
 .index__sound:focus {
-  outline-style: solid;
-  outline-color: $color-red;
+  outline: 2px solid $color-red;
   z-index: 1;
 }
 
@@ -270,7 +276,7 @@ $content-background-color: #111;
   text-decoration-style: dotted;
 
   &:hover {
-    color: #fff;
+    color: $color-white;
     text-decoration-style: solid;
   }
 }
