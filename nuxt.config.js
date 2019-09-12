@@ -29,14 +29,14 @@ export default {
         href: '/fonts/Keania_One/KeaniaOne-Regular.woff2',
         as: 'font',
         type: 'font/woff2',
-        crossorigin: 'true'
+        crossorigin: 'anonymous'
       },
       {
         rel: 'preload',
         href: '/fonts/Keania_One/KeaniaOne-Regular.ttf',
         as: 'font',
         type: 'font/ttf',
-        crossorigin: 'true'
+        crossorigin: 'anonymous'
       }
     ]
   },
