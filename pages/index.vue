@@ -14,8 +14,8 @@
           class="index__sound"
           :tabindex="index + 1"
           @click="soundsToPlay.push(sound)"
-          @keydown.enter="soundsToPlay.push(sound)"
-          @keydown.space="soundsToPlay.push(sound)"
+          @keydown.enter.prevent="soundsToPlay.push(sound)"
+          @keydown.space.prevent="soundsToPlay.push(sound)"
         >
           <button type="button" class="index__sound-name">
             {{ sound.name }}
