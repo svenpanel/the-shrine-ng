@@ -8,21 +8,33 @@
         </span>
       </h1>
       <main class="index__sounds">
-        <article v-for="sound in sounds" :key="sound.file" class="index__sound" @click="soundsToPlay.push(sound)">
-          <div class="index__sound-name">
+        <article
+          v-for="(sound, index) in sounds"
+          :key="sound.file"
+          class="index__sound"
+          :tabindex="index + 1"
+          @click="soundsToPlay.push(sound)"
+          @keydown.enter="soundsToPlay.push(sound)"
+          @keydown.space="soundsToPlay.push(sound)"
+        >
+          <button type="button" class="index__sound-name">
             {{ sound.name }}
-          </div>
+          </button>
           <div>
-            <span class="index__sound-knob" />
+            <button
+              type="button"
+              class="index__sound-knob"
+              :aria-label="sound.name"
+            />
           </div>
         </article>
 
-        <div class="index__sound" />
-        <div class="index__sound" />
-        <div class="index__sound" />
-        <div class="index__sound" />
-        <div class="index__sound" />
-        <div class="index__sound" />
+        <div class="index__sound" hidden />
+        <div class="index__sound" hidden />
+        <div class="index__sound" hidden />
+        <div class="index__sound" hidden />
+        <div class="index__sound" hidden />
+        <div class="index__sound" hidden />
       </main>
     </div>
 
@@ -34,7 +46,11 @@
         <em>sven panel</em>
         also works on your mobile and tablet.
         <br>
-        <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
+        <a
+          href="https://github.com/gildesmarais/the-shrine-ng"
+          target="_blank"
+          rel="noopener"
+        >
           Contributions to this project are welcome.
         </a>
       </p>
@@ -44,7 +60,11 @@
         who initially build the
         <em>svenpanel</em>
         and called it
-        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">
+        <a
+          href="http://theshrine.de"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
           theshrine</a>.
         <br>
         Thank you, cubuss!
@@ -90,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~/assets/variables.scss';
+@import "~/assets/variables.scss";
 
 $shrine-background: #777;
 $shrine-border-color: #333;
@@ -146,7 +166,7 @@ $content-background-color: #111;
   padding-top: 1rem;
   color: rgba(#fff, 0.75);
   letter-spacing: -0.05rem;
-  animation: blinker  1.5s ease-out infinite;
+  animation: blinker 1.5s ease-out infinite;
 }
 
 .index__sounds {
@@ -164,6 +184,12 @@ $content-background-color: #111;
   flex-direction: column;
   align-items: center;
   transition: border 0.2s;
+}
+
+.index__sound:focus {
+  outline-style: solid;
+  outline-color: $color-red;
+  z-index: 1;
 }
 
 .index__sound-name {
@@ -184,6 +210,7 @@ $content-background-color: #111;
   text-transform: uppercase;
   font-size: 0.9rem;
   user-select: none;
+  cursor: pointer;
 }
 
 .index__sound:hover .index__sound-name {
@@ -193,7 +220,10 @@ $content-background-color: #111;
 
 .index__sound-knob {
   margin: 0 auto 1rem;
-  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
+  background:
+    linear-gradient(
+      -5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%
+    );
   box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
   border: 1px solid rgba($knob-color, 0.7);
   border-radius: 50%;
@@ -201,14 +231,26 @@ $content-background-color: #111;
   height: 2rem;
   width: 2rem;
   transition: background 0.3s ease-in;
+  font-size: 0;
+  cursor: pointer;
 }
 
 .index__sound:hover .index__sound-knob {
-  background: linear-gradient(175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
+  background:
+    linear-gradient(
+      175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%
+    );
 }
 
 .index__content {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   margin: 4rem 0;
   padding: 1rem;
   border-radius: 2px;
@@ -234,11 +276,11 @@ $content-background-color: #111;
 }
 
 $itemsPerRow: (
-  'min-width: 801px': 12%,
-  'max-width: 800px': 16%,
-  'max-width: 700px': 33%,
-  'max-width: 480px': 49%,
-  'max-width: 240px': 100%
+  "min-width: 801px": 12%,
+  "max-width: 800px": 16%,
+  "max-width: 700px": 33%,
+  "max-width: 480px": 49%,
+  "max-width: 240px": 100%
 );
 
 @each $query, $width in $itemsPerRow {
