@@ -19,7 +19,7 @@
     "cross-env": "^6.0.3",
     "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.10.0",
+    "nuxt": "^2.10.1",
     "sass-loader": "^8.0.0"
   },
   "devDependencies": {
@@ -30,14 +30,14 @@
     "eslint-loader": "^3.0.2",
     "eslint-plugin-compat": "^3.3.0",
     "eslint-plugin-import": ">=2.18.2",
-    "eslint-plugin-jest": ">=22.17.0",
+    "eslint-plugin-jest": ">=22.19.0",
     "eslint-plugin-node": ">=10.0.0",
     "eslint-plugin-nuxt": ">=0.4.3",
     "eslint-plugin-promise": ">=4.2.1",
     "eslint-plugin-standard": ">=4.0.1",
     "eslint-plugin-vue": "^5.2.3",
     "nodemon": "^1.19.3",
-    "stylelint": "^11.0",
+    "stylelint": "^11.1",
     "stylelint-config-recommended-scss": "^4.0.0",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-scss": "^3.11.1"
