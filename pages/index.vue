@@ -35,7 +35,7 @@
     </div>
 
     <div class="index__content">
-      <h2>1, 2, 3, gude Laune!</h2>
+      <h2>„1, 2, 3 – gude Laune!“</h2>
       <p>
         This "next generation" version of
         <em>the shrine</em>
@@ -76,13 +76,6 @@ export default {
   components: {
     Player
   },
-  head () {
-    return {
-      link: this.sounds.map(function (sound) {
-        return { href: `/sounds/${sound.file}`, rel: 'preload', as: 'audio' }
-      })
-    }
-  },
   data () {
     return {
       soundsToPlay: [],
@@ -93,6 +86,13 @@ export default {
     ...mapState({
       sounds: state => state.sounds.index
     })
+  },
+  head () {
+    return {
+      link: this.sounds.map(function (sound) {
+        return { href: `/sounds/${sound.file}`, rel: 'preload', as: 'audio' }
+      })
+    }
   }
 }
 </script>
@@ -236,6 +236,17 @@ $color-white: #fff;
   padding: 1rem;
   border-radius: 2px;
   background-color: $content-background-color;
+}
+
+.index__content > h2 {
+  @include text-glow();
+  font-style: italic;
+
+  text-align: center;
+  letter-spacing: -.5px;
+  margin-bottom: 1rem;
+  color: rgba($color-white, 0.75);
+  animation: blinker 5s ease-out infinite;
 }
 
 .index__content p {
