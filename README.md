@@ -13,7 +13,7 @@ Well, to:
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 

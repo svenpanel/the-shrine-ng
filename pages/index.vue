@@ -21,11 +21,7 @@
             {{ sound.name }}
           </button>
           <div>
-            <button
-              type="button"
-              class="index__sound-knob"
-              :aria-label="sound.name"
-            />
+            <button type="button" class="index__sound-knob" :aria-label="sound.name" />
           </div>
         </article>
 
@@ -39,18 +35,15 @@
     </div>
 
     <div class="index__content">
+      <h2>1, 2, 3, gude Laune!</h2>
       <p>
         This "next generation" version of
         <em>the shrine</em>
         aka
         <em>sven panel</em>
-        also works on your mobile and tablet.
+        also works on your (e.g. iOS or Android) mobile phone.
         <br>
-        <a
-          href="https://github.com/gildesmarais/the-shrine-ng"
-          target="_blank"
-          rel="noopener"
-        >
+        <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
           Contributions to this project are welcome.
         </a>
       </p>
@@ -60,12 +53,7 @@
         who initially build the
         <em>svenpanel</em>
         and called it
-        <a
-          href="http://theshrine.de"
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-        >
-          theshrine</a>.
+        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">theshrine</a>.
         <br>
         Thank you, cubuss!
       </p>
@@ -226,10 +214,7 @@ $color-white: #fff;
 
 .index__sound-knob {
   margin: 0 auto 1rem;
-  background:
-    linear-gradient(
-      -5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%
-    );
+  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
   box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
   border: 1px solid rgba($knob-color, 0.7);
   border-radius: 50%;
@@ -242,21 +227,11 @@ $color-white: #fff;
 }
 
 .index__sound:hover .index__sound-knob {
-  background:
-    linear-gradient(
-      175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%
-    );
+  background: linear-gradient(175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
 }
 
 .index__content {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 4rem 0;
   padding: 1rem;
   border-radius: 2px;

@@ -1,16 +1,17 @@
 import pkg from './package'
 
-const baseUrl = {
-  production: 'https://theshrine.pw',
-  development: 'http://0.0.0.0:3000'
-}[process.env.NODE_ENV] || ''
+const baseUrl =
+  {
+    production: 'https://theshrine.pw',
+    development: 'http://0.0.0.0:3000'
+  }[process.env.NODE_ENV] || ''
 
 export default {
   mode: 'universal',
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'The Shrine: svenpanel 🔴 next generation ',
     meta: [
@@ -42,60 +43,56 @@ export default {
   },
 
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#f90101' },
 
   /*
-  ** Global CSS
-  */
-  css: [
-    '~/assets/global.scss'
-  ],
+   ** Global CSS
+   */
+  css: ['~/assets/global.scss'],
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-  ],
+   ** Plugins to load before mounting the App
+   */
+  plugins: [],
 
   /*
-  ** Nuxt.js modules
-  */
-  modules: [
-    '@nuxtjs/pwa',
-    '@nuxtjs/style-resources'
-  ],
+   ** Nuxt.js modules
+   */
+  modules: ['@nuxtjs/pwa', '@nuxtjs/style-resources'],
 
   styleResources: {
     sass: ['~/assets/variables.scss']
   },
 
   manifest: {
-    'name': 'The Shrine: svenpanel next generation',
-    'short_name': 'TheShrine NG',
-    'icons': [{
-      'src': '/android-chrome-192x192.png',
-      'sizes': '192x192',
-      'type': 'image/png'
-    }, {
-      'src': '/android-chrome-256x256.png',
-      'sizes': '256x256',
-      'type': 'image/png'
-    }],
-    'theme_color': '#ffffff',
-    'background_color': '#000000',
-    'display': 'standalone'
+    name: 'The Shrine: svenpanel next generation',
+    short_name: 'TheShrine NG',
+    icons: [
+      {
+        src: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png'
+      },
+      {
+        src: '/android-chrome-256x256.png',
+        sizes: '256x256',
+        type: 'image/png'
+      }
+    ],
+    theme_color: '#ffffff',
+    background_color: '#000000',
+    display: 'standalone'
   },
 
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
+     ** You can extend webpack config here
+     */
+    extend (config, ctx) {}
   }
 }
