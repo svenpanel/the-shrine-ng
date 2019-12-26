@@ -11,6 +11,11 @@ Well, to:
 - [x] keep the authentic design (for now), but make it usable on small screens.
 - [ ] allow it to be used offline.
 
+## Adding a groove
+
+Make sure it's freely usable.
+Lower the volume by roughly 11dB. 
+
 ## Build Setup
 
 ```bash
