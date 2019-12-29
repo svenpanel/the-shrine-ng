@@ -12,7 +12,7 @@
           v-for="(sound, index) in sounds"
           :key="sound.file"
           class="index__sound"
-          :tabindex="index + 1"
+          :tabindex="1 + index"
           @click="soundsToPlay.push(sound)"
           @keydown.enter.prevent="soundsToPlay.push(sound)"
           @keydown.space.prevent="soundsToPlay.push(sound)"
@@ -32,6 +32,8 @@
         <div class="index__sound" hidden />
         <div class="index__sound" hidden />
       </main>
+
+      <GroovePlayer :grooves="grooves" />
     </div>
 
     <div class="index__content">
@@ -71,10 +73,12 @@
 <script>
 import { mapState } from 'vuex'
 import Player from '@/components/Player'
+import GroovePlayer from '@/components/GroovePlayer'
 
 export default {
   components: {
-    Player
+    Player,
+    GroovePlayer
   },
   data () {
     return {
@@ -84,7 +88,8 @@ export default {
   },
   computed: {
     ...mapState({
-      sounds: state => state.sounds.index
+      sounds: state => state.sounds.index,
+      grooves: state => state.grooves.index
     })
   },
   head () {
@@ -99,13 +104,6 @@ export default {
 
 <style lang="scss">
 @import "~/assets/variables.scss";
-
-$shrine-background: #777;
-$shrine-border-color: #333;
-$knob-color: darken($shrine-background, 20);
-$padding: 1rem;
-$content-background-color: #111;
-$color-white: #fff;
 
 .index {
   width: 100%;
@@ -226,7 +224,8 @@ $color-white: #fff;
   cursor: pointer;
 }
 
-.index__sound:hover .index__sound-knob {
+.index__sound:hover .index__sound-knob,
+.index__sound-knob:hover {
   background: linear-gradient(175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
 }
 
@@ -240,10 +239,10 @@ $color-white: #fff;
 
 .index__content > h2 {
   @include text-glow();
-  font-style: italic;
 
+  font-style: italic;
   text-align: center;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   margin-bottom: 1rem;
   color: rgba($color-white, 0.75);
   animation: blinker 5s ease-out infinite;

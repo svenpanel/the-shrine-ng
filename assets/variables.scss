@@ -4,6 +4,13 @@ $color-red: #f90101;
 
 $breakpoint-medium: 600px;
 
+$shrine-background: #777;
+$shrine-border-color: #333;
+$knob-color: darken($shrine-background, 20);
+$padding: 1rem;
+$content-background-color: #111;
+$color-white: #fff;
+
 @mixin text-glow() {
   text-shadow: 0 0 0.4rem rgba($color-red, 0.9);
   color: $color-red;
