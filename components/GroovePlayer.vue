@@ -22,7 +22,7 @@
     </button>
 
     <audio v-if="currentGroove" autobuffer autoplay loop>
-      <source :key="currentGroove.file" :src="`grooves/${currentGroove.file}`">
+      <source :key="currentGroove.file" :src="`grooves/${currentGroove.file}`" preload="metadata">
     </audio>
   </aside>
 </template>
