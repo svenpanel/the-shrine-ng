@@ -8,11 +8,11 @@
   { "file": "38_laune7.mp3", "name": "Long Message" },
   { "file": "39_laune8.mp3", "name": "Message 3×" },
   { "file": "40_laune9.mp3", "name": "Feierei Alda" },
+  { "file": "feier_bis_ich_kotze.mp3", "name": "Bis ich kotze" },
+  { "file": "supergeil.mp3", "name": "Supergeil" },
   { "file": "love_is_in_the_air.mp3", "name": "Love is in the Air" },
-  { "file": "continue_the_mission.mp3", "name": "Continue the Mission"},
-  { "file": "love_place_our_parties.mp3", "name": "♥ Place City Parties"},
-  { "file": "party_with_us_us_us.mp3", "name": "Party with us 3×"},
-  { "file": "unbelievable_crazy.mp3", "name": "Unbelievable F* Crazy"},
+  { "file": "einfach_einfach_und_einfach.mp3", "name": "3× einfach" },
+  { "file": "super_3x.mp3", "name": "3× super" },
   { "file": "what_a_weather_wow.mp3", "name": "Weather Wow"},
   { "file": "31_laune10.mp3", "name": "Feiern?" },
   { "file": "41_laune11.mp3", "name": "Jaaaa" },
@@ -52,5 +52,7 @@
   { "file": "23_redalert.mp3", "name": "Red Alert" },
   { "file": "24_ichverab.mp3", "name": "Ich verabschiede mich" },
   { "file": "25_feelinfree.mp3", "name": "Feelin' free" },
-  { "file": "26_wirfeiern.mp3", "name": "Wir feiern" }
+  { "file": "26_wirfeiern.mp3", "name": "Wir feiern" },
+  { "file": "continue_the_mission.mp3", "name": "Continue the Mission"},
+  { "file": "party_with_us_us_us.mp3", "name": "Party with us 3×"}
 ]
