@@ -12,8 +12,7 @@ module.exports = {
     'plugin:nuxt/recommended',
     'plugin:compat/recommended'
   ],
-  // add your custom rules here
   rules: {
-    "no-irregular-whitespace": "off"
+    'no-irregular-whitespace': 'off'
   }
 }
