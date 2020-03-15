@@ -1,9 +1,9 @@
 name: build and deploy artifact to gh-pages branch
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
+  # push:
+  #   branches:
+  #     - master
 
 jobs:
   deploy:
