@@ -1,9 +1,9 @@
 name: build and deploy artifact to gh-pages branch
 
-on: [push]
-  # push:
-  #   branches:
-  #     - master
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   deploy:
@@ -38,5 +38,5 @@ jobs:
           publish_dir: ./dist
           cname: theshrine.pw
           force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
