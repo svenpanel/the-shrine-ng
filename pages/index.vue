@@ -240,10 +240,10 @@ $color-white: #fff;
 
 .index__content > h2 {
   @include text-glow();
-  font-style: italic;
 
+  font-style: italic;
   text-align: center;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   margin-bottom: 1rem;
   color: rgba($color-white, 0.75);
   animation: blinker 5s ease-out infinite;
