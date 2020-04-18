@@ -8,7 +8,13 @@
         @keydown.space.prevent="currentGroove = null"
       >
         <span class="groove-player__button">❚❚</span>
-        <marquee class="groove-player__display">{{ currentGroove.name }}</marquee>
+        <!--
+          how retro can you go?
+
+          support is pretty good:
+          https://caniuse.com/#feat=mdn-api_htmlmarqueeelement
+        -->
+        <marquee class="groove-player__display" loop="-1">{{ currentGroove.name }}</marquee>
       </span>
 
       <span
@@ -18,7 +24,7 @@
         @keydown.space.prevent="currentGroove = groove"
       >
         <span class="groove-player__button">►</span>
-        <label class="groove-player__display">Play a groove</label>
+        <span class="groove-player__display">Play a groove</span>
       </span>
     </button>
 
@@ -61,12 +67,14 @@ $height: 2rem;
 
 .groove-player > button > span {
   display: flex;
-  border: 1px solid #000;
+  border: 1px solid $color-background;
+  background-color: $color-background;
   box-shadow: 0 0 1px $knob-color;
 }
 
 .groove-player__button {
   @extend %button;
+
   border: 0;
   width: 2rem;
   height: $height;
@@ -82,5 +90,10 @@ $height: 2rem;
   text-align: center;
   flex: 1;
   text-transform: uppercase;
+}
+
+marquee.groove-player__display {
+  margin: 0 1rem;
+  letter-spacing: 0.33em;
 }
 </style>
