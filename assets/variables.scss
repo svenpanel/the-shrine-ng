@@ -1,10 +1,24 @@
-$color-background: #000;
-$color-primary: #fefefe;
-$color-red: #f90101;
+$color-background: hsl(0, 0%, 0%);
+$color-primary: hsl(0, 0%, 100%);
+$color-red: hsl(360, 99%, 49%);
+$shrine-background: hsl(0, 0%, 47%);
+$shrine-border-color: hsl(0, 0%, 20%);
+$knob-color: hsl(0, 0%, 27%);
+$knob-color-100: hsl(0, 0%, 67%);
+$content-background-color: hsl(0, 0%, 7%);
+$color-white: hsl(0, 0%, 100%);
 
 $breakpoint-medium: 600px;
+$padding: 1rem;
 
 @mixin text-glow() {
-  text-shadow: 0 0 0.4rem rgba($color-red, 0.9);
+  text-shadow: 0 0 0.4em rgba($color-red, 0.9);
   color: $color-red;
+}
+
+%button {
+  background: linear-gradient(-5deg, $knob-color 0%, $knob-color-100 100%);
+  box-shadow: 0 0 0.4em rgba($knob-color, 0.4);
+  border: 1px solid rgba($knob-color, 0.7);
+  cursor: pointer;
 }

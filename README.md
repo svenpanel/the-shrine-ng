@@ -11,6 +11,14 @@ Well, to:
 - [x] keep the authentic design (for now), but make it usable on small screens.
 - [x] allow it to be used offline.
 
+## Adding a groove
+
+1. Make sure it's freely usable.
+2. Lower the volume by roughly 11dB.
+3. Encode it to a low bitrate to keep file size small
+4. add it to the grooves folder
+5. add it to the `static/grooves.json` file
+
 ## Build Setup
 
 ```bash

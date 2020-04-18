@@ -13,6 +13,12 @@ const preCaching = require('./static/sounds.json').map(function (sound) {
   return { url: `/sounds/${sound.file}`, revision }
 })
 
+preCaching.concat(require('./static/grooves.json').map(function (groove) {
+  const revision = fs.statSync(`./static/grooves/${groove.file}`).mtimeMs.toString(36)
+
+  return { url: `/sounds/${groove.file}`, revision }
+}))
+
 preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: 1 })
 preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.ttf', revision: 1 })
 
@@ -99,7 +105,7 @@ export default {
     manifest: {
       name: 'The Shrine: svenpanel next generation',
       short_name: 'The Shrine',
-      theme_color: '#f90101',
+      theme_color: '#777',
       background_color: '#000000',
       display: 'standalone',
       lang: 'de'
