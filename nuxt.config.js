@@ -94,7 +94,6 @@ export default {
     workbox: {
       workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
       autoRegister: true,
-      dev: true,
       preCaching
     },
     manifest: {
