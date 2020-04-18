@@ -7,7 +7,7 @@
         @keydown.enter.prevent="currentGroove = null"
         @keydown.space.prevent="currentGroove = null"
       >
-        <span class="index__sound-knob">❚❚</span>
+        <span class="groove-player__knob">❚❚</span>
         <label class="">Stop the groove</label>
       </span>
       <span
@@ -46,7 +46,8 @@ export default {
 }
 
 .groove-player > button {
-  background-color: transparent;
+  background-color: $knob-color;
+  border: 1px solid $knob-color;
   border: 0;
   outline: 0;
   cursor: pointer;
@@ -56,6 +57,10 @@ export default {
   display: flex;
   line-height: 3rem;
   justify-content: center;
+}
+
+.groove-player__knob {
+  @extend %knob;
 }
 
 .groove-player label {

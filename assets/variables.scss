@@ -15,3 +15,17 @@ $color-white: #fff;
   text-shadow: 0 0 0.4rem rgba($color-red, 0.9);
   color: $color-red;
 }
+
+%knob {
+  margin: 0 auto 1rem;
+  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
+  box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
+  border: 1px solid rgba($knob-color, 0.7);
+  border-radius: 50%;
+  display: block;
+  height: 2rem;
+  width: 2rem;
+  transition: background 0.3s ease-in;
+  font-size: 0;
+  cursor: pointer;
+}
