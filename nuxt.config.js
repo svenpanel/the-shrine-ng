@@ -105,7 +105,7 @@ export default {
     manifest: {
       name: 'The Shrine: svenpanel next generation',
       short_name: 'The Shrine',
-      theme_color: '#f90101',
+      theme_color: '#777',
       background_color: '#000000',
       display: 'standalone',
       lang: 'de'
