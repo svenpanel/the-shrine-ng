@@ -1,31 +1,24 @@
-$color-background: #000;
-$color-primary: #fefefe;
-$color-red: #f90101;
+$color-background: hsl(0, 0%, 0%);
+$color-primary: hsl(0, 0%, 100%);
+$color-red: hsl(360, 99%, 49%);
+$shrine-background: hsl(0, 0%, 47%);
+$shrine-border-color: hsl(0, 0%, 20%);
+$knob-color: hsl(0, 0%, 27%);
+$knob-color-100: hsl(0, 0%, 67%);
+$content-background-color: hsl(0, 0%, 7%);
+$color-white: hsl(0, 0%, 100%);
 
 $breakpoint-medium: 600px;
-
-$shrine-background: #777;
-$shrine-border-color: #333;
-$knob-color: darken($shrine-background, 20);
 $padding: 1rem;
-$content-background-color: #111;
-$color-white: #fff;
 
 @mixin text-glow() {
-  text-shadow: 0 0 0.4rem rgba($color-red, 0.9);
+  text-shadow: 0 0 0.4em rgba($color-red, 0.9);
   color: $color-red;
 }
 
-%knob {
-  margin: 0 auto 1rem;
-  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
-  box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
+%button {
+  background: linear-gradient(-5deg, $knob-color 0%, $knob-color-100 100%);
+  box-shadow: 0 0 0.4em rgba($knob-color, 0.4);
   border: 1px solid rgba($knob-color, 0.7);
-  border-radius: 50%;
-  display: block;
-  height: 2rem;
-  width: 2rem;
-  transition: background 0.3s ease-in;
-  font-size: 0;
   cursor: pointer;
 }

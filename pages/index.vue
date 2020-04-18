@@ -32,8 +32,6 @@
         <div class="index__sound" hidden />
         <div class="index__sound" hidden />
       </main>
-
-      <GroovePlayer :grooves="grooves" />
     </div>
 
     <div class="index__content">
@@ -67,6 +65,8 @@
       :key="[soundIndex, sound.file].join()"
       :current-sound="sound"
     />
+
+    <GroovePlayer :grooves="grooves" class="index__groove-player" />
   </section>
 </template>
 
@@ -109,7 +109,7 @@ export default {
   width: 100%;
   max-width: 95vw;
   margin: 0.1rem auto;
-  padding: 0 0.5rem;
+  padding: 0 0.5rem 25vh;
   color: $color-primary;
 }
 
@@ -211,17 +211,15 @@ export default {
 }
 
 .index__sound-knob {
-  margin: 0 auto 1rem;
-  background: linear-gradient(-5deg, rgba($knob-color, 0.5) 0%, lighten($knob-color, 30) 100%);
-  box-shadow: 0 0 0.4rem rgba($knob-color, 0.4);
-  border: 1px solid rgba($knob-color, 0.7);
+  @extend %button;
+
   border-radius: 50%;
-  display: block;
+  margin: 0 auto 1rem;
+  transition: background 0.3s ease-in;
   height: 2rem;
   width: 2rem;
-  transition: background 0.3s ease-in;
   font-size: 0;
-  cursor: pointer;
+  display: block;
 }
 
 .index__sound:hover .index__sound-knob,
@@ -264,6 +262,17 @@ export default {
     color: $color-white;
     text-decoration-style: solid;
   }
+}
+
+.index__groove-player {
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  background: linear-gradient(180deg, $knob-color-100 0%, $knob-color 100%);
+  border-top: 1px solid $knob-color;
+  box-shadow: 0 0 0.05em $knob-color-100;
+  left: 0;
+  width: 100%;
 }
 
 $itemsPerRow: (

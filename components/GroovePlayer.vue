@@ -7,17 +7,18 @@
         @keydown.enter.prevent="currentGroove = null"
         @keydown.space.prevent="currentGroove = null"
       >
-        <span class="groove-player__knob">❚❚</span>
-        <label class="">Stop the groove</label>
+        <span class="groove-player__button">❚❚</span>
+        <marquee class="groove-player__display">{{ currentGroove.name }}</marquee>
       </span>
+
       <span
         v-else
         @click="currentGroove = groove"
         @keydown.enter.prevent="currentGroove = groove"
         @keydown.space.prevent="currentGroove = groove"
       >
-        <span class="index__sound-knob">►</span>
-        <label class="">Play a groove</label>
+        <span class="groove-player__button">►</span>
+        <label class="groove-player__display">Play a groove</label>
       </span>
     </button>
 
@@ -41,38 +42,45 @@ export default {
 <style lang="scss">
 @import "~/assets/variables.scss";
 
+$height: 2rem;
+
 .groove-player {
-  padding-bottom: 1rem;
+  padding: 1rem;
 }
 
 .groove-player > button {
   background-color: $knob-color;
-  border: 1px solid $knob-color;
-  border: 0;
-  outline: 0;
   cursor: pointer;
+  height: $height;
+  border: 0;
+  padding: 0;
+  line-height: $height;
+  width: 100%;
+  outline: 0;
 }
 
 .groove-player > button > span {
   display: flex;
-  line-height: 3rem;
-  justify-content: center;
+  border: 1px solid #000;
+  box-shadow: 0 0 1px $knob-color;
 }
 
-.groove-player__knob {
-  @extend %knob;
+.groove-player__button {
+  @extend %button;
+  border: 0;
+  width: 2rem;
+  height: $height;
 }
 
-.groove-player label {
+.groove-player__display {
   @include text-glow();
 
+  height: $height;
   padding: 0 1rem;
-  border: 0.4rem outset rgba($knob-color, 0.25);
+  line-height: $height;
   background-color: $color-background;
-  line-height: 1;
-  height: 2rem;
-  margin: 0 0 0 1rem;
-  width: 10rem;
   text-align: center;
+  flex: 1;
+  text-transform: uppercase;
 }
 </style>
