@@ -9,7 +9,7 @@ Well, to:
 - [x] save the [original shrine](http://theshrine.de) from becoming history due to technical advancements.
 - [x] allow everyone to contribute to the project.
 - [x] keep the authentic design (for now), but make it usable on small screens.
-- [ ] allow it to be used offline.
+- [x] allow it to be used offline.
 
 ## Build Setup
 
