@@ -36,7 +36,7 @@ jobs:
         run: mkdir -p ./dist/.well-known
       - run: echo '${{ secrets.BRAVE_REWARDS_VERIFICATION }}' > ./dist/.well-known/brave-rewards-verification.txt
 
-      - run: echo '${{ secrets.GOOGLE_SITE_VERIFICATION_CONTENT }}' > ./dist/${{ secrets.GOOGLE_SITE_VERIFICATION_FILE_NAME }}
+      - run: echo '${{ secrets.GOOGLE_SITE_VERIFICATION_CONTENT }}' > './dist/${{ secrets.GOOGLE_SITE_VERIFICATION_FILE_NAME }}'
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
