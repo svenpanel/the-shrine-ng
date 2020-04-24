@@ -43,6 +43,8 @@
         <em>sven panel</em>
         also works on your (e.g. iOS or Android) mobile phone.
         <br>
+        Add this page to your home screen to use it even when you're offline.
+        <br>
         <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
           Contributions to this project are welcome.
         </a>
