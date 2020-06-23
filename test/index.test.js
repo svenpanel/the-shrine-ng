@@ -1,39 +1,38 @@
 const { resolve } = require('path')
-const { Nuxt, Builder } = require('nuxt')
-const { JSDOM } = require('jsdom')
 const test = require('ava')
+const { Nuxt, Builder } = require('nuxt')
 
-// We keep the nuxt and server instance
-// So we can close them at the end of the test
-let nuxt = null
-
-// Init Nuxt.js and create a server listening on localhost:4000
-test.before(async () => {
-  const config = {
-    dev: false,
-    rootDir: resolve(__dirname, '..')
-  }
-  nuxt = new Nuxt(config)
+// Init Nuxt.js and start listening on localhost:4000
+test.before('Init Nuxt.js', async (t) => {
+  const rootDir = resolve(__dirname, '..')
+  let config = {}
+  try { config = require(resolve(rootDir, 'nuxt.config.js')) } catch (e) {}
+  config.rootDir = rootDir // project folder
+  config.dev = false // production build
+  config.mode = 'universal' // Isomorphic application
+  const nuxt = new Nuxt(config)
+  t.context.nuxt = nuxt // We keep a reference to Nuxt so we can close the server at the end of the test
   await new Builder(nuxt).build()
-  await nuxt.server.listen(4000, 'localhost')
-}, 30000)
+  nuxt.listen(4000, 'localhost')
+})
 
 test('Route / exists and renders HTML', async (t) => {
+  const { nuxt } = t.context
   const context = {}
-  const { html } = await nuxt.server.renderRoute('/', context)
+  const { html } = await nuxt.renderRoute('/', context)
   t.true(html.includes('All about gude Laune'))
 })
 
 test('Route / exists and renders HTML with CSS applied', async (t) => {
-  const context = {}
-  const { html } = await nuxt.server.renderRoute('/', context)
-  const { window } = new JSDOM(html).window
+  const { nuxt } = t.context
+  const window = await nuxt.renderAndGetWindow('http://localhost:4000/')
   const element = window.document.querySelector('.index__headline > span ')
   t.not(element, null)
   t.is(window.getComputedStyle(element).color, 'rgb(249, 1, 1)')
 })
 
 // Close server and ask nuxt to stop listening to file changes
-test.after('Closing server and nuxt.js', (t) => {
+test.after('Closing server', (t) => {
+  const { nuxt } = t.context
   nuxt.close()
 })
