@@ -11,8 +11,13 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . && stylelint **/*.vue **/*.scss",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .; stylelint --fix **/*.vue **/*.scss",
-    "test": "ava --serial --verbose",
+    "test": "ava --verbose",
     "precommit": "npm run lint"
+  },
+  "ava": {
+    "files": [
+      "test/**/*"
+    ]
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.20",
