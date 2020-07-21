@@ -2,7 +2,6 @@
   "name": "the-shrine-ng",
   "version": "1.0.0",
   "description": "Gude Laune! Feierei Alter! Abfahrt auch auf dem Telefon und Tablet. Auch offline. Obergeil.",
-  "author": "Gil Desmarais",
   "private": true,
   "scripts": {
     "dev": "nuxt",

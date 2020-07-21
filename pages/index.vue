@@ -45,7 +45,7 @@
         <br>
         Add this page to your home screen to use it even when you're offline.
         <br>
-        <a href="https://github.com/gildesmarais/the-shrine-ng" target="_blank" rel="noopener">
+        <a href="https://github.com/svenpanel/the-shrine-ng" target="_blank" rel="noopener">
           Contributions to this project are welcome.
         </a>
       </p>
