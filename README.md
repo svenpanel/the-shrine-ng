@@ -1,4 +1,4 @@
-![the-shrine-ng](https://github.com/gildesmarais/the-shrine-ng/raw/master/static/og_image.png)
+![the-shrine-ng](https://github.com/svenpanel/the-shrine-ng/raw/master/static/og_image.png)
 
 # the shrine, 21st century edition
 
