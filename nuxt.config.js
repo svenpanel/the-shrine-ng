@@ -23,11 +23,6 @@ preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: 1 
 preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.ttf', revision: 1 })
 
 export default {
-  mode: 'universal',
-
-  /*
-   ** Headers of the page
-   */
   head: {
     title: 'The Shrine: svenpanel 🔴 next generation ',
     meta: [
