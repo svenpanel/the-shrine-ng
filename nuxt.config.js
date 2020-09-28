@@ -7,16 +7,16 @@ const baseUrl =
     development: 'http://0.0.0.0:3000'
   }[process.env.NODE_ENV] || ''
 
-const preCaching = require('./static/sounds.json').map(function (sound) {
-  const revision = fs.statSync(`./static/sounds/${sound.file}`).mtimeMs.toString(36)
+const preCaching = require('./static/sounds.json').map(({ file }) => {
+  const revision = fs.statSync(`./static/sounds/${file}`).mtimeMs.toString(36)
 
-  return { url: `/sounds/${sound.file}`, revision }
+  return { url: `/sounds/${file}`, revision }
 })
 
-preCaching.concat(require('./static/grooves.json').map(function (groove) {
-  const revision = fs.statSync(`./static/grooves/${groove.file}`).mtimeMs.toString(36)
+preCaching.concat(require('./static/grooves.json').map(({ file }) => {
+  const revision = fs.statSync(`./static/grooves/${file}`).mtimeMs.toString(36)
 
-  return { url: `/sounds/${groove.file}`, revision }
+  return { url: `/sounds/${file}`, revision }
 }))
 
 preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: 1 })

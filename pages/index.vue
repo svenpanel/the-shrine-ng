@@ -90,15 +90,17 @@ export default {
   },
   computed: {
     ...mapState({
-      sounds: state => state.sounds.index,
-      grooves: state => state.grooves.index
+      sounds: ({ sounds }) => sounds.index,
+      grooves: ({ grooves }) => grooves.index
     })
   },
   head () {
     return {
-      link: this.sounds.map(function (sound) {
-        return { href: `/sounds/${sound.file}`, rel: 'preload', as: 'audio' }
-      })
+      link: this.sounds.map(({ file }) => ({
+        href: `/sounds/${file}`,
+        rel: 'preload',
+        as: 'audio'
+      }))
     }
   }
 }
