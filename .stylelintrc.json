@@ -4,6 +4,6 @@
     "function-comma-space-after": "always",
     "no-descending-specificity": null,
     "declaration-block-single-line-max-declarations": 1,
-    "unit-whitelist": ["%", "em", "rem", "deg", "px", "ch", "s", "vh", "vw", "ms", "turn"]
+    "unit-allowed-list": ["%", "em", "rem", "deg", "px", "ch", "s", "vh", "vw", "ms", "turn"]
   }
 }
