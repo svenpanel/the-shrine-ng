@@ -28,10 +28,10 @@
     "sass-loader": "^10.0.2"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^2.0.2",
+    "@nuxtjs/eslint-config": "^3.1.0",
     "ava": "^3.13.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.10.0",
     "eslint-config-standard": ">=14.1.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-compat": "^3.8.0",
