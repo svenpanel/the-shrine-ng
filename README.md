@@ -37,3 +37,13 @@ $ yarn run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+## Docker
+
+```bash
+# Build docker image
+docker build -t the-shrine .
+
+# Run image
+docker run -d -p 8080:3000 the-shrine
+```
