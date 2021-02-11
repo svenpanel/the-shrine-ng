@@ -9,7 +9,6 @@ test.before('Init Nuxt.js', async (t) => {
   try { config = require(resolve(rootDir, 'nuxt.config.js')) } catch (e) {}
   config.rootDir = rootDir // project folder
   config.dev = false // production build
-  config.mode = 'universal' // Isomorphic application
   const nuxt = new Nuxt(config)
   t.context.nuxt = nuxt // We keep a reference to Nuxt so we can close the server at the end of the test
   await new Builder(nuxt).build()

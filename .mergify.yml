@@ -2,6 +2,8 @@ pull_request_rules:
   - name: automatic merge for Dependabot pull requests
     conditions:
       - author=dependabot[bot]
+      - check-success=test
+      - base=master
     actions:
       merge:
         method: squash
