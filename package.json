@@ -24,7 +24,7 @@
     "cross-env": "^7.0.3",
     "node-sass": "^5.0.0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.15.2",
+    "nuxt": "^2.15.3",
     "sass-loader": "^10.1.1"
   },
   "devDependencies": {
