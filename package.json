@@ -43,7 +43,7 @@
     "eslint-plugin-standard": ">=5.0.0",
     "eslint-plugin-vue": "^7.12.1",
     "jsdom": "^16.6.0",
-    "nodemon": "^2.0.8",
+    "nodemon": "^2.0.9",
     "stylelint": "^13.13",
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-config-standard": "^22.0.0",
