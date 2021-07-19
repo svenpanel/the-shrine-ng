@@ -41,7 +41,7 @@
     "eslint-plugin-nuxt": ">=2.0.0",
     "eslint-plugin-promise": ">=5.1.0",
     "eslint-plugin-standard": ">=5.0.0",
-    "eslint-plugin-vue": "^7.13.0",
+    "eslint-plugin-vue": "^7.14.0",
     "jsdom": "^16.6.0",
     "nodemon": "^2.0.12",
     "stylelint": "^13.13",
