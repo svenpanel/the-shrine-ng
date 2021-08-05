@@ -20,12 +20,12 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/style-resources": "^1.2.0",
+    "@nuxtjs/style-resources": "^1.2.1",
     "cross-env": "^7.0.3",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.15.7",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "<11"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.1",
