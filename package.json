@@ -8,8 +8,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "ava --verbose",
-    "precommit": "npm run lint"
+    "test": "ava --verbose"
   },
   "ava": {
     "files": [
