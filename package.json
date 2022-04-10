@@ -19,13 +19,13 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.1",
     "cross-env": "^7.0.3",
-    "node-sass": "^6.0.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.15.8",
-    "sass-loader": "<11"
+    "sass": "^1.50.0",
+    "sass-loader": "^10.0"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.1.0",
     "jsdom": "^19.0.0",
     "nodemon": "^2.0.15"
   },
