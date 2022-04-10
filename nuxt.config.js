@@ -1,5 +1,5 @@
 import fs from 'fs'
-import pkg from './package'
+import pkg from './package.json'
 
 const baseUrl =
   {
@@ -19,8 +19,8 @@ preCaching.concat(require('./static/grooves.json').map(({ file }) => {
   return { url: `/sounds/${file}`, revision }
 }))
 
-preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: 1 })
-preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.ttf', revision: 1 })
+preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: "1" })
+preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.ttf', revision: "1" })
 
 export default {
   head: {
@@ -84,6 +84,7 @@ export default {
   /*
    ** Build configuration
    */
+  target: 'static',
   build: {
     /*
      ** You can extend webpack config here
