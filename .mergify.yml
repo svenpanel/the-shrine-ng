@@ -1,10 +1,15 @@
-pull_request_rules:
-  - name: automatic merge for Dependabot pull requests
+queue_rules:
+  - name: dependabot
     conditions:
       - author=dependabot[bot]
       - check-success=test
       - base=master
+      
+pull_request_rules:
+  - name: automatic merge for Dependabot pull requests
+    conditions:
+      - author=dependabot[bot]
     actions:
-      merge:
+      queue:
         method: squash
-        strict: smart
+        name: dependabot
