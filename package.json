@@ -20,7 +20,7 @@
     "@nuxtjs/style-resources": "^1.2.1",
     "cross-env": "^7.0.3",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.15.8",
+    "nuxt": "^3.1.2",
     "sass": "^1.58.0",
     "sass-loader": "^10.0"
   },
