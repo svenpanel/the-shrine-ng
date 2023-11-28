@@ -1864,14 +1864,14 @@
     serve-static "^1.14.1"
     workbox-cdn "^5.1.4"
 
-"@nuxtjs/style-resources@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/style-resources/-/style-resources-1.2.1.tgz#9a2b6580b2ed9b06e930bee488a56b8376a263de"
-  integrity sha512-sOp71gCBNuGK2jchybTtVab83yB7jnSr+hw6DAKDgAGX/jrMYUyxRc9tiFxe+8YDSnqghTgQrkEkqPsfS4D4sg==
+"@nuxtjs/style-resources@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/style-resources/-/style-resources-1.2.2.tgz#b2e5fe0ceee98984a8141451bf91e77adf2f1218"
+  integrity sha512-p2putExz19lDDhCway+nVgPsH37Uw7Qbos8rWJ7RXI7Mp0/qVsKzLSIsAYWSUXwUdsJilPDQhSNazp+CEYJ37g==
   dependencies:
-    consola "^2.15.3"
-    glob-all "^3.2.1"
-    sass-resources-loader "^2.2.4"
+    consola "^3.2.3"
+    glob-all "^3.3.1"
+    sass-resources-loader "^2.2.5"
 
 "@nuxtjs/youch@^4.2.3":
   version "4.2.3"
@@ -4653,7 +4653,7 @@ git-url-parse@^13.1.0:
   dependencies:
     git-up "^7.0.0"
 
-glob-all@^3.2.1:
+glob-all@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/glob-all/-/glob-all-3.3.1.tgz#6be2d5d8276902319f640fbf839fbe15b35e7667"
   integrity sha512-Y+ESjdI7ZgMwfzanHZYQ87C59jOO0i+Hd+QYtVt9PhLi6d8wlOpzQnfBxWUlaTuAoR3TkybLqqbIoWveU4Ji7Q==
@@ -8063,7 +8063,7 @@ sass-loader@^10.0:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass-resources-loader@^2.2.4:
+sass-resources-loader@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/sass-resources-loader/-/sass-resources-loader-2.2.5.tgz#75131cdb26bae51fcffc007d8155d57b5e825ca7"
   integrity sha512-po8rfETH9cOQACWxubT/1CCu77KjxwRtCDm6QAXZH99aUHBydwSoxdIjC40SGp/dcS/FkSNJl0j1VEojGZqlvQ==
