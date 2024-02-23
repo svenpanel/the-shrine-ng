@@ -27,7 +27,7 @@
   "devDependencies": {
     "ava": "^6.1.1",
     "jsdom": "^24.0.0",
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.1.0"
   },
   "browserslist": [
     "last 2 version",
