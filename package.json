@@ -22,7 +22,7 @@
     "normalize.css": "^8.0.1",
     "nuxt": "^2.18.1",
     "sass": "^1.77.8",
-    "sass-loader": "^10.0"
+    "sass-loader": "^15.0"
   },
   "devDependencies": {
     "ava": "^6.1.3",
