@@ -1,0 +1,54 @@
+{
+  "name": "The Shrine: svenpanel next generation",
+  "short_name": "The Shrine",
+  "description": "Gude Laune! Feierei Alter! Abfahrt auch auf dem Telefon und Tablet. Auch offline. Obergeil.",
+  "icons": [
+    {
+      "src": "/_nuxt/icons/icon_64x64.6b1b58.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_120x120.6b1b58.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_144x144.6b1b58.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_152x152.6b1b58.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_192x192.6b1b58.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_384x384.6b1b58.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/_nuxt/icons/icon_512x512.6b1b58.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/?standalone=true",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#777",
+  "lang": "de"
+}

@@ -1,0 +1,5 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: theshrine.pw
+Token: 0060a7665f27c8b2b9eb4e2b29166809d251d92f50e9e4dc90307bde69235550
+
