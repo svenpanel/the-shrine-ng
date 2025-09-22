@@ -8629,10 +8629,10 @@ sass-resources-loader@^2.2.5:
     glob "^7.1.6"
     loader-utils "^2.0.0"
 
-sass@^1.83.0:
-  version "1.83.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.83.0.tgz#e36842c0b88a94ed336fd16249b878a0541d536f"
-  integrity sha512-qsSxlayzoOjdvXMVLkzF84DJFc2HZEL/rFyGIKbbilYtAvlCxyuzUeff9LawTn4btVnLKg75Z8MMr1lxU1lfGw==
+sass@^1.93.0:
+  version "1.93.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.93.0.tgz#8252f61405be295f4755d1ed5df48bf118587aa5"
+  integrity sha512-CQi5/AzCwiubU3dSqRDJ93RfOfg/hhpW1l6wCIvolmehfwgCI35R/0QDs1+R+Ygrl8jFawwwIojE2w47/mf94A==
   dependencies:
     chokidar "^4.0.0"
     immutable "^5.0.2"
