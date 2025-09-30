@@ -18,7 +18,7 @@
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.2",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.18.1",
     "sass": "^1.83.0",
