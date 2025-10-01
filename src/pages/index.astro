@@ -1,7 +1,7 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import sounds from '../data/sounds.json';
 import grooves from '../data/grooves.json';
-import '../styles/global.css';
 import soundboardScript from '../scripts/soundboard.ts?url';
 
 const title = 'The Shrine: svenpanel 🔴 next generation';
@@ -11,119 +11,112 @@ const site = Astro.site ?? new URL('http://localhost:4321/');
 const ogImage = new URL('og_image.png', site).toString();
 const asset = (path: string) => new URL(path, site).pathname;
 const fontFaceCss = `@font-face {\n  font-family: "Keania One";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src:\n    local("Keania One"),\n    local("KeaniaOne-Regular"),\n    url(${new URL('fonts/Keania_One/KeaniaOne-Regular.woff2', site).pathname}) format('woff2'),\n    url(${new URL('fonts/Keania_One/KeaniaOne-Regular.ttf', site).pathname}) format('truetype');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}`;
+const favicon = asset('icon.png');
+const fontPreloads = [
+  { href: asset('fonts/Keania_One/KeaniaOne-Regular.woff2'), type: 'font/woff2' },
+  { href: asset('fonts/Keania_One/KeaniaOne-Regular.ttf'), type: 'font/ttf' },
+];
+const audioPreloads = sounds.map((sound) => asset(`sounds/${sound.file}`));
 ---
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta property="og:title" content="The Shrine next generation" />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content={ogImage} />
-    <link rel="icon" type="image/png" href={asset('icon.png')} />
-    <link rel="apple-touch-icon" href={asset('icon.png')} />
-    <link rel="preload" href={asset('fonts/Keania_One/KeaniaOne-Regular.woff2')} as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href={asset('fonts/Keania_One/KeaniaOne-Regular.ttf')} as="font" type="font/ttf" crossorigin="anonymous" />
-    {sounds.map((sound) => (
-      <link rel="preload" href={asset(`sounds/${sound.file}`)} as="audio" />
-    ))}
-    <style is:global set:html={fontFaceCss} />
-  </head>
-  <body>
-    <section class="index">
-      <div class="index__shrine">
-        <h1 class="index__headline">
-          <span>
-            The Shrine
-            <sub>next generation</sub>
-          </span>
-        </h1>
-        <main class="index__sounds">
-          {sounds.map((sound, index) => (
-            <article
-              class="index__sound"
-              tabindex={index + 1}
-              role="button"
-              aria-label={sound.name}
-              data-sound-file={sound.file}
-            >
-              <span class="index__sound-name">{sound.name}</span>
-              <div>
-                <span class="index__sound-knob" aria-hidden="true"></span>
-              </div>
-            </article>
-          ))}
-          {placeholders.map((_, index) => (
-            <div class="index__sound" hidden aria-hidden="true" data-placeholder={index}></div>
-          ))}
-        </main>
-      </div>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  favicon={favicon}
+  appleTouchIcon={favicon}
+  fontFaceCss={fontFaceCss}
+  fontPreloads={fontPreloads}
+  audioPreloads={audioPreloads}
+>
+  <section class="index">
+    <div class="index__shrine">
+      <h1 class="index__headline">
+        <span>
+          The Shrine
+          <sub>next generation</sub>
+        </span>
+      </h1>
+      <main class="index__sounds">
+        {sounds.map((sound, index) => (
+          <article
+            class="index__sound"
+            tabindex={index + 1}
+            role="button"
+            aria-label={sound.name}
+            data-sound-file={sound.file}
+          >
+            <span class="index__sound-name">{sound.name}</span>
+            <div>
+              <span class="index__sound-knob" aria-hidden="true"></span>
+            </div>
+          </article>
+        ))}
+        {placeholders.map((_, index) => (
+          <div class="index__sound" hidden aria-hidden="true" data-placeholder={index}></div>
+        ))}
+      </main>
+    </div>
 
-      <div data-sound-container hidden aria-hidden="true"></div>
+    <div data-sound-container hidden aria-hidden="true"></div>
 
-      <div class="index__content">
-        <h2>„1, 2, 3 – gude Laune!“</h2>
-        <p>
-          This "next generation" version of <em>the shrine</em> aka <em>sven panel</em> also works on your (e.g. iOS or Android)
-          mobile phone.
-          <br />
-          Add this page to your home screen to use it even when you're offline.
-          <br />
-          <a href="https://github.com/svenpanel/the-shrine-ng" target="_blank" rel="noopener">Contributions to this project are welcome.</a>
-        </p>
-        <p>
-          The idea and the recordings come from <em>cubuss</em> who initially build the <em>svenpanel</em> and called it
-          <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">theshrine</a>.
-          <br />
-          Thank you, cubuss!
-        </p>
-      </div>
+    <div class="index__content">
+      <h2>„1, 2, 3 – gude Laune!“</h2>
+      <p>
+        This "next generation" version of <em>the shrine</em> aka <em>sven panel</em> also works on your (e.g. iOS or Android) mobile
+        phone.
+        <br />
+        Add this page to your home screen to use it even when you're offline.
+        <br />
+        <a href="https://github.com/svenpanel/the-shrine-ng" target="_blank" rel="noopener">Contributions to this project are
+welcome.</a>
+      </p>
+      <p>
+        The idea and the recordings come from <em>cubuss</em> who initially build the <em>svenpanel</em> and called it
+        <a href="http://theshrine.de" target="_blank" rel="noopener noreferrer nofollow">theshrine</a>.
+        <br />
+        Thank you, cubuss!
+      </p>
+    </div>
 
-      <div class="index__groove-player">
-        <aside class="groove-player">
-          {grooves.map((groove) => (
-            <button type="button" data-groove-file={groove.file} data-state="idle">
-              <span class="groove-player__active" hidden={true}>
-                <span class="groove-player__button" aria-hidden="true">❚❚</span>
-                <marquee class="groove-player__display" loop="-1">{groove.name}</marquee>
-              </span>
-              <span class="groove-player__inactive">
-                <span class="groove-player__button" aria-hidden="true">►</span>
-                <span class="groove-player__display">Play a groove</span>
-              </span>
-            </button>
-          ))}
-        </aside>
-      </div>
+    <div class="index__groove-player">
+      <aside class="groove-player">
+        {grooves.map((groove) => (
+          <button type="button" data-groove-file={groove.file} data-state="idle">
+            <span class="groove-player__active" hidden={true}>
+              <span class="groove-player__button" aria-hidden="true">❚❚</span>
+              <marquee class="groove-player__display" loop="-1">{groove.name}</marquee>
+            </span>
+            <span class="groove-player__inactive">
+              <span class="groove-player__button" aria-hidden="true">►</span>
+              <span class="groove-player__display">Play a groove</span>
+            </span>
+          </button>
+        ))}
+      </aside>
+    </div>
+  </section>
+
+  <noscript>
+    <section class="noscript-fallback">
+      <h2>Audio playback without JavaScript</h2>
+      <p>You can still play every quote manually. Tap a filename to open it in your browser.</p>
+      <ul>
+        {sounds.map((sound) => (
+          <li><a href={asset(`sounds/${sound.file}`)}>{sound.name}</a></li>
+        ))}
+      </ul>
+      {grooves.length > 0 && (
+        <>
+          <h2>Grooves</h2>
+          <ul>
+            {grooves.map((groove) => (
+              <li><a href={asset(`grooves/${groove.file}`)}>{groove.name}</a></li>
+            ))}
+          </ul>
+        </>
+      )}
     </section>
+  </noscript>
 
-    <noscript>
-      <section class="noscript-fallback">
-        <h2>Audio playback without JavaScript</h2>
-        <p>You can still play every quote manually. Tap a filename to open it in your browser.</p>
-        <ul>
-          {sounds.map((sound) => (
-            <li><a href={asset(`sounds/${sound.file}`)}>{sound.name}</a></li>
-          ))}
-        </ul>
-        {grooves.length > 0 && (
-          <>
-            <h2>Grooves</h2>
-            <ul>
-              {grooves.map((groove) => (
-                <li><a href={asset(`grooves/${groove.file}`)}>{groove.name}</a></li>
-              ))}
-            </ul>
-          </>
-        )}
-      </section>
-    </noscript>
-
-    <script type="module" src={soundboardScript} />
-  </body>
-</html>
+  <script slot="scripts" type="module" src={soundboardScript} />
+</BaseLayout>
