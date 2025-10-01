@@ -1,19 +1,25 @@
-name: test and build
+name: Check and build
 
-on: [pull_request]
+on:
+  pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
+          cache: "npm"
 
-      - run: yarn install
-      - run: yarn run test
-      - run: yarn run generate
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Build site
+        run: npm run build
