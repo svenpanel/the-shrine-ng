@@ -1,13 +1,6 @@
 ---
 import '../styles/global.css';
 
-interface FontPreload {
-  href: string;
-  type: string;
-  as?: string;
-  crossorigin?: string;
-}
-
 interface Props {
   title: string;
   description: string;
@@ -15,9 +8,6 @@ interface Props {
   favicon?: string;
   appleTouchIcon?: string;
   lang?: string;
-  fontFaceCss?: string;
-  fontPreloads?: FontPreload[];
-  audioPreloads?: string[];
 }
 
 const {
@@ -27,9 +17,6 @@ const {
   favicon,
   appleTouchIcon,
   lang = 'en',
-  fontFaceCss,
-  fontPreloads = [],
-  audioPreloads = [],
 } = Astro.props as Props;
 ---
 <!DOCTYPE html>
@@ -50,19 +37,6 @@ const {
     <meta property="og:image" content={ogImage} />
     {favicon && <link rel="icon" type="image/png" href={favicon} />}
     {appleTouchIcon && <link rel="apple-touch-icon" href={appleTouchIcon} />}
-    {fontPreloads.map((font) => (
-      <link
-        rel="preload"
-        href={font.href}
-        as={font.as ?? 'font'}
-        type={font.type}
-        crossorigin={font.crossorigin ?? 'anonymous'}
-      />
-    ))}
-    {audioPreloads.map((href) => (
-      <link rel="preload" href={href} as="audio" />
-    ))}
-    {fontFaceCss && <style is:global set:html={fontFaceCss} />}
     <slot name="head" />
   </head>
   <body>
