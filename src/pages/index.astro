@@ -30,11 +30,10 @@ const favicon = assetPath('icon.png');
         </span>
       </h1>
       <main class="index__sounds">
-        {sounds.map((sound, index) => (
-          <article
+        {sounds.map((sound) => (
+          <button
+            type="button"
             class="index__sound"
-            tabindex={index + 1}
-            role="button"
             aria-label={sound.name}
             data-sound-file={sound.file}
           >
@@ -42,7 +41,7 @@ const favicon = assetPath('icon.png');
             <div>
               <span class="index__sound-knob" aria-hidden="true"></span>
             </div>
-          </article>
+          </button>
         ))}
         {placeholders.map((_, index) => (
           <div class="index__sound" hidden aria-hidden="true" data-placeholder={index}></div>

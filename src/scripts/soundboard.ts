@@ -8,7 +8,7 @@ function resolveAsset(path: string): string {
 
 function handleSoundboard(): void {
   const container = document.querySelector('[data-sound-container]') ?? document.body;
-  const tiles = document.querySelectorAll<HTMLElement>('[data-sound-file]');
+  const tiles = document.querySelectorAll<HTMLButtonElement>('[data-sound-file]');
 
   tiles.forEach((tile) => {
     const file = tile.dataset.soundFile;
@@ -28,13 +28,6 @@ function handleSoundboard(): void {
     };
 
     tile.addEventListener('click', play);
-    tile.addEventListener('keydown', (event) => {
-      if (event.defaultPrevented) return;
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        play();
-      }
-    });
   });
 }
 
