@@ -150,6 +150,8 @@ body {
   border: none;
   color: inherit;
   text-decoration: none;
+  font: inherit;
+  appearance: none;
 }
 
 .index__sound:focus {
