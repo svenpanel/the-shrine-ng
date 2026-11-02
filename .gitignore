@@ -65,11 +65,12 @@ typings/
 # next.js build output
 .next
 
-# nuxt.js build output
+# nuxt build output
 .nuxt
-
-# Nuxt generate
+.output
+.data
 dist
+
 
 # vuepress build output
 .vuepress/dist
@@ -80,5 +81,3 @@ dist
 # IDE
 .idea
 
-# Service worker
-sw.*

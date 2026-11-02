@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~/assets/variables.scss";
+@use "~/assets/variables" as *;
 
 $height: 2rem;
 
