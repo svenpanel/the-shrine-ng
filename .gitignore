@@ -69,8 +69,8 @@ typings/
 .nuxt
 .output
 .data
+# symlink to .output/public created by nuxt generate
 dist
-
 
 # vuepress build output
 .vuepress/dist
