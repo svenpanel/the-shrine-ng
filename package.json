@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Gude Laune! Feierei Alter! Abfahrt auch auf dem Telefon und Tablet. Auch offline. Obergeil.",
   "private": true,
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -18,16 +21,14 @@
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.2",
-    "cross-env": "^7.0.3",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.18.1",
-    "sass": "^1.83.0",
-    "sass-loader": "^10.0"
+    "sass": "^1.107.1",
+    "sass-loader": "^10.5.2"
   },
   "devDependencies": {
-    "ava": "^6.2.0",
-    "jsdom": "^25.0.1",
-    "nodemon": "^3.1.9"
+    "ava": "^8.3.0",
+    "jsdom": "^30.1.3"
   },
   "browserslist": [
     "last 2 version",
