@@ -26,6 +26,15 @@ test('generates / with every sound', () => {
   }
 })
 
+test('links iOS splash screens', () => {
+  const html = read('index.html')
+  const splashes = [...html.matchAll(/rel="apple-touch-startup-image"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*rel="apple-touch-startup-image"/g)]
+    .map(([, a, b]) => a || b)
+
+  assert.ok(splashes.length > 0)
+  for (const href of splashes) assert.ok(existsSync(join(outputDir, href)), href)
+})
+
 test('generates the SPA fallback page', () => {
   assert.ok(existsSync(join(outputDir, '200.html')))
 })
@@ -47,6 +56,8 @@ test('ships a PWA that precaches sounds and fonts', () => {
   assert.equal(manifest.short_name, 'The Shrine')
   assert.equal(manifest.start_url, '/?standalone=true')
   for (const icon of manifest.icons) assert.ok(existsSync(join(outputDir, icon.src)), icon.src)
+  assert.equal(manifest.id, '/?standalone=true')
   assert.ok(sw.includes('sounds/30_laune1.mp3'))
+  assert.ok(sw.includes('grooves/'))
   assert.ok(sw.includes('fonts/Keania_One/KeaniaOne-Regular.woff2'))
 })

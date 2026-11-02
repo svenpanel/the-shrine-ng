@@ -1,3 +1,4 @@
+import { createAppleSplashScreens } from '@vite-pwa/assets-generator/config'
 import pkg from './package.json' with { type: 'json' }
 
 const baseUrl =
@@ -8,6 +9,8 @@ const baseUrl =
 
 const appName = 'The Shrine: svenpanel next generation'
 const themeColor = '#777'
+const backgroundColor = '#000000'
+const fullBleed = { padding: 0, resizeOptions: { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } } }
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
@@ -80,16 +83,35 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     pwaAssets: {
       config: false,
-      preset: 'minimal-2023',
+      preset: {
+        transparent: { sizes: [64, 192, 512], favicons: [[48, 'favicon.ico']], ...fullBleed },
+        maskable: { sizes: [512], resizeOptions: { background: backgroundColor } },
+        apple: { sizes: [180], ...fullBleed },
+        appleSplashScreens: createAppleSplashScreens(
+          {
+            resizeOptions: { background: backgroundColor },
+            linkMediaOptions: { log: false },
+            // the default name adds "light-" to the links but not to the files
+            name: (landscape, { width, height }, dark) =>
+              `apple-splash-${landscape ? 'landscape' : 'portrait'}-${dark ? 'dark-' : ''}${width}x${height}.png`
+          },
+          [
+            'iPhone SE 4"', 'iPhone 8', 'iPhone 8 Plus', 'iPhone X', 'iPhone XR', 'iPhone XS Max',
+            'iPhone 14', 'iPhone 15 Pro', 'iPhone 15 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Pro Max',
+            'iPad 9.7"', 'iPad Pro 10.5"', 'iPad Pro 11"', 'iPad Pro 12.9"'
+          ]
+        )
+      },
       image: 'public/icon.png'
     },
     manifest: {
       name: appName,
       short_name: 'The Shrine',
       description: pkg.description,
+      id: '/?standalone=true',
       start_url: '/?standalone=true',
       theme_color: themeColor,
-      background_color: '#000000',
+      background_color: backgroundColor,
       display: 'standalone',
       lang: 'de'
     },
@@ -99,6 +121,7 @@ export default defineNuxtConfig({
       globPatterns: [
         '**/*.{js,css,html}',
         'sounds/*.mp3',
+        'grooves/*.mp3',
         'fonts/Keania_One/*.{woff2,ttf}'
       ],
       cleanupOutdatedCaches: true,
