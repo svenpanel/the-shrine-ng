@@ -1,5 +1,5 @@
 const { resolve } = require('path')
-const test = require('ava')
+const test = require('ava').default
 const { Nuxt, Builder } = require('nuxt')
 
 // Init Nuxt.js and start listening on localhost:4000
@@ -24,7 +24,7 @@ test('Route / exists and renders HTML', async (t) => {
 
 test('Route / exists and renders HTML with CSS applied', async (t) => {
   const { nuxt } = t.context
-  const window = await nuxt.renderAndGetWindow('http://localhost:4000/')
+  const window = await nuxt.renderAndGetWindow('http://localhost:4000/', { virtualConsole: false })
   const element = window.document.querySelector('.index__headline > span ')
   t.not(element, null)
   t.is(window.getComputedStyle(element).color, 'rgb(249, 1, 1)')
