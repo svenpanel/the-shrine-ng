@@ -16,8 +16,8 @@ Well, to:
 1. Make sure it's freely usable.
 2. Lower the volume by roughly 11dB.
 3. Encode it to a low bitrate to keep file size small
-4. add it to the grooves folder
-5. add it to the `static/grooves.json` file
+4. add it to the `public/grooves` folder
+5. add it to the `public/grooves.json` file
 
 ## Build Setup
 
@@ -28,12 +28,15 @@ $ yarn install
 # serve with hot reload at localhost:3000
 $ yarn run dev
 
-# build for production and launch server
+# generate the static site into .output/public
+$ yarn run generate
+
+# preview the production build
 $ yarn run build
 $ yarn start
 
-# generate static project
-$ yarn run generate
+# generate and check the static output
+$ yarn test
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+For detailed explanation on how things work, checkout the [Nuxt docs](https://nuxt.com/docs).

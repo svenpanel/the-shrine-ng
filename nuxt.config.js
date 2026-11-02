@@ -1,5 +1,5 @@
-import fs from 'fs'
-import pkg from './package.json'
+import { createAppleSplashScreens } from '@vite-pwa/assets-generator/config'
+import pkg from './package.json' with { type: 'json' }
 
 const baseUrl =
   {
@@ -7,104 +7,126 @@ const baseUrl =
     development: 'http://0.0.0.0:3000'
   }[process.env.NODE_ENV] || ''
 
-const preCaching = require('./static/sounds.json').map(({ file }) => {
-  const revision = fs.statSync(`./static/sounds/${file}`).mtimeMs.toString(36)
+const appName = 'The Shrine: svenpanel next generation'
+const themeColor = '#777'
+const backgroundColor = '#000000'
+const fullBleed = { padding: 0, resizeOptions: { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } } }
 
-  return { url: `/sounds/${file}`, revision }
-})
+export default defineNuxtConfig({
+  compatibilityDate: '2026-11-01',
 
-preCaching.concat(require('./static/grooves.json').map(({ file }) => {
-  const revision = fs.statSync(`./static/grooves/${file}`).mtimeMs.toString(36)
-
-  return { url: `/sounds/${file}`, revision }
-}))
-
-preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.woff2', revision: "1" })
-preCaching.push({ url: '/fonts/Keania_One/KeaniaOne-Regular.ttf', revision: "1" })
-
-export default {
-  head: {
-    title: 'The Shrine: svenpanel 🔴 next generation ',
-    meta: [
-      { charset: 'utf-8' },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui'
-      },
-      { name: 'apple-mobile-web-app-capable', content: 'yes' },
-      { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
-      { hid: 'description', name: 'description', content: pkg.description },
-      { hid: 'og:title', property: 'og:title', content: 'The Shrine next generation' },
-      { hid: 'og:description', property: 'og:description', content: pkg.description },
-      { hid: 'og:image', property: 'og:image', content: baseUrl + '/og_image.png' },
-      { hid: 'og:type', property: 'og:type', content: 'website' }
-    ],
-    link: [
-      {
-        rel: 'preload',
-        href: '/fonts/Keania_One/KeaniaOne-Regular.woff2',
-        as: 'font',
-        type: 'font/woff2',
-        crossorigin: 'anonymous'
-      },
-      {
-        rel: 'preload',
-        href: '/fonts/Keania_One/KeaniaOne-Regular.ttf',
-        as: 'font',
-        type: 'font/ttf',
-        crossorigin: 'anonymous'
-      }
-    ]
+  app: {
+    head: {
+      title: 'The Shrine: svenpanel 🔴 next generation ',
+      htmlAttrs: { lang: 'de' },
+      meta: [
+        { charset: 'utf-8' },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui'
+        },
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
+        { name: 'apple-mobile-web-app-title', content: appName },
+        { name: 'description', content: pkg.description },
+        { property: 'og:site_name', content: appName },
+        { property: 'og:title', content: 'The Shrine next generation' },
+        { property: 'og:description', content: pkg.description },
+        { property: 'og:image', content: baseUrl + '/og_image.png' },
+        { property: 'og:type', content: 'website' }
+      ],
+      link: [
+        {
+          rel: 'preload',
+          href: '/fonts/Keania_One/KeaniaOne-Regular.woff2',
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: 'anonymous'
+        },
+        {
+          rel: 'preload',
+          href: '/fonts/Keania_One/KeaniaOne-Regular.ttf',
+          as: 'font',
+          type: 'font/ttf',
+          crossorigin: 'anonymous'
+        }
+      ],
+      script: [
+        {
+          'data-goatcounter': 'https://theshrine.goatcounter.com/count',
+          async: true,
+          src: '//gc.zgo.at/count.js',
+          tagPosition: 'bodyClose'
+        }
+      ]
+    }
   },
 
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#f90101' },
-
-  /*
-   ** Global CSS
-   */
-  css: ['~/assets/global.scss'],
-
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [],
-
-  /*
-   ** Nuxt.js modules
-   */
-  modules: ['@nuxtjs/pwa', '@nuxtjs/style-resources'],
-
-  styleResources: {
-    sass: ['~/assets/variables.scss']
+  experimental: {
+    // single static page: inline the payload and skip the client app manifest
+    payloadExtraction: false,
+    appManifest: false
   },
 
-  /*
-   ** Build configuration
-   */
-  target: 'static',
-  build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend (config, ctx) {}
+  css: ['normalize.css', '~/assets/global.scss'],
+
+  modules: ['@vite-pwa/nuxt'],
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === 'marquee'
+    }
   },
 
   pwa: {
-    workbox: {
-      workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
-      autoRegister: true,
-      preCaching
+    registerType: 'autoUpdate',
+    pwaAssets: {
+      config: false,
+      preset: {
+        transparent: { sizes: [64, 192, 512], favicons: [[48, 'favicon.ico']], ...fullBleed },
+        maskable: { sizes: [512], resizeOptions: { background: backgroundColor } },
+        apple: { sizes: [180], ...fullBleed },
+        appleSplashScreens: createAppleSplashScreens(
+          {
+            resizeOptions: { background: backgroundColor },
+            linkMediaOptions: { log: false },
+            // the default name adds "light-" to the links but not to the files
+            name: (landscape, { width, height }, dark) =>
+              `apple-splash-${landscape ? 'landscape' : 'portrait'}-${dark ? 'dark-' : ''}${width}x${height}.png`
+          },
+          [
+            'iPhone SE 4"', 'iPhone 8', 'iPhone 8 Plus', 'iPhone X', 'iPhone XR', 'iPhone XS Max',
+            'iPhone 14', 'iPhone 15 Pro', 'iPhone 15 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Pro Max',
+            'iPad 9.7"', 'iPad Pro 10.5"', 'iPad Pro 11"', 'iPad Pro 12.9"'
+          ]
+        )
+      },
+      image: 'public/icon.png'
     },
     manifest: {
-      name: 'The Shrine: svenpanel next generation',
+      name: appName,
       short_name: 'The Shrine',
-      theme_color: '#777',
-      background_color: '#000000',
+      description: pkg.description,
+      id: '/?standalone=true',
+      start_url: '/?standalone=true',
+      theme_color: themeColor,
+      background_color: backgroundColor,
       display: 'standalone',
       lang: 'de'
+    },
+    workbox: {
+      cacheId: 'the-shrine-ng-prod',
+      navigateFallback: '/',
+      globPatterns: [
+        '**/*.{js,css,html}',
+        'sounds/*.mp3',
+        'grooves/*.mp3',
+        'fonts/Keania_One/*.{woff2,ttf}'
+      ],
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
+      skipWaiting: true
     }
   }
-}
+})

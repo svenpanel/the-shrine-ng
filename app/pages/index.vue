@@ -72,42 +72,25 @@
   </section>
 </template>
 
-<script>
-import { mapState } from 'vuex'
-import Player from '@/components/Player'
-import GroovePlayer from '@/components/GroovePlayer'
+<script setup>
+import { ref } from 'vue'
+import sounds from '~~/public/sounds.json'
+import grooves from '~~/public/grooves.json'
 
-export default {
-  components: {
-    Player,
-    GroovePlayer
-  },
-  data () {
-    return {
-      soundsToPlay: [],
-      currentSound: null
-    }
-  },
-  computed: {
-    ...mapState({
-      sounds: ({ sounds }) => sounds.index,
-      grooves: ({ grooves }) => grooves.index
-    })
-  },
-  head () {
-    return {
-      link: this.sounds.map(({ file }) => ({
-        href: `/sounds/${file}`,
-        rel: 'preload',
-        as: 'audio'
-      }))
-    }
-  }
-}
+const soundsToPlay = ref([])
+
+useHead({
+  link: sounds.map(({ file }) => ({
+    href: `/sounds/${file}`,
+    rel: 'preload',
+    as: 'audio'
+  }))
+})
 </script>
 
 <style lang="scss">
-@import "~/assets/variables.scss";
+@use "sass:color";
+@use "~/assets/variables" as *;
 
 .index {
   width: 100%;
@@ -228,7 +211,7 @@ export default {
 
 .index__sound:hover .index__sound-knob,
 .index__sound-knob:hover {
-  background: linear-gradient(175deg, rgba(lighten($color-red, 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
+  background: linear-gradient(175deg, rgba(color.adjust($color-red, $lightness: 50%), 0.5) 0%, rgba($color-red, 0.9) 100%);
 }
 
 .index__content {
