@@ -21,7 +21,7 @@
     "nuxt": "^4.6.3"
   },
   "devDependencies": {
-    "@vite-pwa/assets-generator": "^1.0.4",
+    "@vite-pwa/assets-generator": "^2.0.0",
     "sass": "^1.107.1"
   }
 }

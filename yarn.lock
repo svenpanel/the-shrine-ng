@@ -2077,17 +2077,17 @@
     picomatch "^4.0.4"
     resolve-from "^5.0.0"
 
-"@vite-pwa/assets-generator@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/assets-generator/-/assets-generator-1.0.4.tgz#38d1c77775af67d4431f7e2d5fb7ce80950921de"
-  integrity sha512-LlYM5CEmFmdl7le4B0Pr9+NPipQgStFOslvfxEQ/1LW3wUquZ3s3ec2z132lzfVEYAiJAmfFhQ0EVs6ntO7RKw==
+"@vite-pwa/assets-generator@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@vite-pwa/assets-generator/-/assets-generator-2.0.0.tgz#36770d6fae6070ee1ee9e956e4fa5d8432985d52"
+  integrity sha512-GBjHBLBzOP1GDJTc7MjeDdeJTi+PS9eFjw3HYjNHXnEbkS7vRS/YFwl8VW5/4vWF0Fo35Mji1yXAABvSVzu0Ew==
   dependencies:
-    cac "^6.7.14"
-    colorette "^2.0.20"
+    cac "^7.0.0"
     consola "^3.4.2"
+    picocolors "^1.1.1"
     sharp "^0.35.4"
     sharp-ico "^0.1.5"
-    unconfig "^7.3.1"
+    unconfig "^7.5.0"
 
 "@vite-pwa/nuxt@^1.1.1":
   version "1.1.1"
@@ -2636,11 +2636,6 @@ c12@^3.3.4:
     pkg-types "^2.3.0"
     rc9 "^3.0.1"
 
-cac@^6.7.14:
-  version "6.7.14"
-  resolved "https://registry.yarnpkg.com/cac/-/cac-6.7.14.tgz#804e1e6f506ee363cb0e3ccbb09cad5dd9870959"
-  integrity sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==
-
 cac@^7.0.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/cac/-/cac-7.1.0.tgz#d0142e5aab43f65e908523e85c59c72bbdf8aca0"
@@ -2739,11 +2734,6 @@ color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
-
-colorette@^2.0.20:
-  version "2.0.20"
-  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.20.tgz#9eb793e6833067f7235902fcd3b09917a000a95a"
-  integrity sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==
 
 commander@^2.20.0:
   version "2.20.3"
@@ -6035,7 +6025,7 @@ unconfig-core@7.5.0:
     "@quansync/fs" "^1.0.0"
     quansync "^1.0.0"
 
-unconfig@^7.3.1:
+unconfig@^7.5.0:
   version "7.5.0"
   resolved "https://registry.yarnpkg.com/unconfig/-/unconfig-7.5.0.tgz#122d8ef27e27aedf5551485069161c0852ab534d"
   integrity sha512-oi8Qy2JV4D3UQ0PsopR28CzdQ3S/5A1zwsUwp/rosSbfhJ5z7b90bIyTwi/F7hCLD4SGcZVjDzd4XoUQcEanvA==
