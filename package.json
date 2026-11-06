@@ -18,7 +18,7 @@
   "dependencies": {
     "@vite-pwa/nuxt": "^1.1.1",
     "normalize.css": "^8.0.1",
-    "nuxt": "^4.6.3"
+    "nuxt": "^4.6.4"
   },
   "devDependencies": {
     "@vite-pwa/assets-generator": "^2.0.0",
