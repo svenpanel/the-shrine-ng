@@ -11,6 +11,10 @@ export class ShrineGroove extends HTMLElement {
   /** @type {HTMLAudioElement | null} */
   #audio = null
 
+  connectedCallback () {
+    this.setAttribute('role', 'complementary') // the original markup was an <aside>
+  }
+
   /** @param {CatalogEntry[]} grooves */
   set grooves (grooves) {
     this.#stop()
@@ -42,11 +46,13 @@ export class ShrineGroove extends HTMLElement {
    * @param {CatalogEntry} groove
    */
   #start (button, groove) {
+    this.#stop()
     const audio = new Audio(`/grooves/${groove.file}`)
     audio.loop = true
     button.append(audio)
     this.#audio = audio
-    audio.play().catch(() => this.#stop())
+    // a pause() that interrupts a stale play() must not stop whatever plays now
+    audio.play().catch(() => { if (this.#audio === audio) this.#stop() })
 
     if ('mediaSession' in navigator) {
       const session = navigator.mediaSession
@@ -56,7 +62,7 @@ export class ShrineGroove extends HTMLElement {
         artwork: [{ src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' }]
       })
       session.playbackState = 'playing'
-      session.setActionHandler('play', () => audio.play())
+      session.setActionHandler('play', () => this.#start(button, groove))
       session.setActionHandler('pause', () => this.#stop())
       session.setActionHandler('stop', () => this.#stop())
     }
@@ -67,8 +73,10 @@ export class ShrineGroove extends HTMLElement {
     this.#audio?.remove()
     this.#audio = null
     if ('mediaSession' in navigator) {
-      navigator.mediaSession.playbackState = 'none'
-      navigator.mediaSession.metadata = null
+      const session = navigator.mediaSession
+      session.playbackState = 'none'
+      session.metadata = null
+      for (const action of /** @type {const} */ (['play', 'pause', 'stop'])) session.setActionHandler(action, null)
     }
   }
 }

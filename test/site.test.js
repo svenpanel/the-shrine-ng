@@ -10,12 +10,12 @@ const html = read('index.html')
 const sounds = parseCatalog(JSON.parse(read('sounds.json')))
 const grooves = parseCatalog(JSON.parse(read('grooves.json')))
 
-test('index.html preloads every sound and each asset exists', () => {
+test('index.html names no sound; the catalogs drive the page and every asset exists', () => {
   assert.match(html, /<html lang="de">/)
-  for (const { file } of sounds) {
-    assert.ok(html.includes(`href="/sounds/${file}"`), `preload for ${file}`)
-    assert.ok(existsSync(join(publicDir, 'sounds', file)), `asset ${file}`)
-  }
+  assert.ok(!html.includes('.mp3'), 'index.html must not list media files')
+  assert.match(html, /<link rel="preload" href="\/sounds\.json" as="fetch" crossorigin>/)
+  assert.match(html, /<link rel="preload" href="\/grooves\.json" as="fetch" crossorigin>/)
+  for (const { file } of sounds) assert.ok(existsSync(join(publicDir, 'sounds', file)), `asset ${file}`)
   for (const { file } of grooves) assert.ok(existsSync(join(publicDir, 'grooves', file)), `groove ${file}`)
 })
 

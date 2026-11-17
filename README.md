@@ -31,6 +31,6 @@ $ python3 -m http.server -d public 3000
 $ node --test 'test/*.test.js'
 ```
 
-Adding a sound: drop the mp3 into `public/sounds/`, add it to `public/sounds.json`, and add a matching preload link to `public/index.html`. The tests fail if any of the three is missing. The service worker precaches whatever the JSON files list.
+Adding or replacing a sound: drop the mp3 into `public/sounds/` and edit `public/sounds.json`. Nothing else. The service worker precaches whatever the JSON files list, and the deploy stamps a content hash that renews the media cache when a file changes.
 
-Changing a shell file (html, css, js): list new files in `SHELL` in `public/sw.js`; the tests check it. Bump `VERSION` there to evict old caches.
+Adding a shell file (css, js, font): list it in `SHELL` in `public/sw.js`; the tests check it. The deploy workflow stamps the cache names with `.github/stamp-sw.sh`; locally they stay `dev`, so clear site data after replacing a sound.

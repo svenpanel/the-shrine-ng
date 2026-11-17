@@ -6,6 +6,7 @@
  */
 export class ShrineSound extends HTMLElement {
   connectedCallback () {
+    this.setAttribute('role', 'article') // the original markup was an <article>
     if (this.hasChildNodes()) return
 
     const name = document.createElement('button')

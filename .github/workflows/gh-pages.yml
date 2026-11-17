@@ -18,6 +18,9 @@ jobs:
 
       - run: node --test 'test/*.test.js'
 
+      # cache names: shell by commit, media by content (see the script)
+      - run: sh .github/stamp-sw.sh public/sw.js public
+
       - name: create .well-known folder
         run: mkdir -p ./public/.well-known
       - run: echo '${{ secrets.BRAVE_REWARDS_VERIFICATION }}' > ./public/.well-known/brave-rewards-verification.txt
