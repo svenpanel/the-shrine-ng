@@ -78,3 +78,49 @@ test('contextmenu on the button prevents default and does not play', () => {
   assert.ok(prevented)
   assert.ok(!played)
 })
+
+function gesture () {
+  globalThis.location = { origin: 'https://theshrine.pw' }
+  const el = new ShrineSound()
+  el.setAttribute('file', 'a.mp3')
+  el.connectedCallback()
+  const calls = { play: 0, share: 0 }
+  el.play = () => { calls.play++ }
+  el.share = () => { calls.share++ }
+  const on = el.children[0].listeners
+  const touch = (t, x = 0, y = 0) => ({ pointerType: 'touch', timeStamp: t, clientX: x, clientY: y })
+  return { el, calls, on, touch }
+}
+
+test('a touch hold of 500ms or more shares once on pointerup and does not play', () => {
+  const { el, calls, on, touch } = gesture()
+  on.pointerdown(touch(0))
+  on.pointerup(touch(600))
+  el.listeners.click()
+  assert.deepEqual(calls, { play: 0, share: 1 })
+})
+
+test('a short tap plays and does not share', () => {
+  const { el, calls, on, touch } = gesture()
+  on.pointerdown(touch(0))
+  on.pointerup(touch(120))
+  el.listeners.click()
+  assert.deepEqual(calls, { play: 1, share: 0 })
+})
+
+test('moving more than 10px cancels the hold', () => {
+  const { calls, on, touch } = gesture()
+  on.pointerdown(touch(0))
+  on.pointermove(touch(300, 11, 0))
+  on.pointerup(touch(700, 11, 0))
+  assert.equal(calls.share, 0)
+})
+
+test('contextmenu plus a hold in one gesture shares only once', () => {
+  const { calls, on, touch } = gesture()
+  on.pointerdown(touch(0))
+  on.contextmenu({ preventDefault () {} })
+  on.pointerup(touch(600))
+  on.contextmenu({ preventDefault () {} })
+  assert.equal(calls.share, 1)
+})

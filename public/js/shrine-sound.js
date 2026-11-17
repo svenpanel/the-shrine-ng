@@ -47,10 +47,34 @@ export class ShrineSound extends HTMLElement {
     knob.setAttribute('aria-hidden', 'true')
 
     this.append(name, knob)
-    this.addEventListener('click', () => this.play())
+    this.addEventListener('click', () => {
+      if (this.heldClick) return (this.heldClick = false)
+      this.play()
+    })
+
+    // iOS WebKit rarely fires contextmenu on touch, so a touch hold shares from pointerup,
+    // where the transient user activation navigator.share needs is still granted
+    let hold = null
+    name.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return
+      hold = { time: event.timeStamp, x: event.clientX, y: event.clientY }
+    })
+    name.addEventListener('pointermove', (event) => {
+      if (hold && Math.hypot(event.clientX - hold.x, event.clientY - hold.y) > 10) hold = null
+    })
+    name.addEventListener('pointercancel', () => { hold = null })
+    name.addEventListener('pointerup', (event) => {
+      const held = hold && event.timeStamp - hold.time >= 500
+      hold = null
+      if (!held) return
+      this.heldClick = true // swallow the click that follows (if none comes, expire)
+      setTimeout(() => { this.heldClick = false }, 400)
+      this.share(name)
+    })
+    // mouse and desktop path; a touch hold is shared by pointerup instead
     name.addEventListener('contextmenu', (event) => {
       event.preventDefault()
-      this.share(name)
+      if (!hold && !this.heldClick) this.share(name)
     })
   }
 
