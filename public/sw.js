@@ -11,7 +11,10 @@
 // SHELL is listed by hand; test/sw.test.js fails when a file in public/ or public/js is missing.
 const stamped = (/** @type {string} */ value) => (value.startsWith('__') ? 'dev' : value)
 const SHELL_CACHE = `shell-${stamped('__VERSION__')}`
-const MEDIA_CACHE = `media-${stamped('__MEDIA_HASH__')}`
+const MEDIA_STAMP = stamped('__MEDIA_HASH__')
+const MEDIA_CACHE = `media-${MEDIA_STAMP}`
+// unstamped (local dev): no media precache and the network wins, so replaced audio plays at once
+const DEV_MEDIA = MEDIA_STAMP === 'dev'
 
 const SHELL = [
   '/',
@@ -31,6 +34,11 @@ const SHELL = [
   '/fonts/Keania_One/KeaniaOne-Regular.woff2',
   '/fonts/Keania_One/KeaniaOne-Regular.ttf'
 ]
+
+/** Revalidate with the server, never trust a max-age copy in the HTTP cache (GitHub Pages sends one). */
+const REVALIDATE = /** @type {RequestInit} */ ({ cache: 'no-cache' })
+/** @type {Map<string, Promise<boolean>>} */
+const inflight = new Map()
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (self))
 
@@ -61,9 +69,11 @@ sw.addEventListener('install', (event) => {
     await shellCache.addAll(SHELL.map(fresh))
 
     // an unchanged media hash means the media cache is already complete
-    const mediaCache = await caches.open(MEDIA_CACHE)
-    const have = new Set((await mediaCache.keys()).map((request) => pathOf(request.url)))
-    await mediaCache.addAll(media.filter((url) => !have.has(pathOf(url))).map(fresh))
+    if (!DEV_MEDIA) {
+      const mediaCache = await caches.open(MEDIA_CACHE)
+      const have = new Set((await mediaCache.keys()).map((request) => pathOf(request.url)))
+      await mediaCache.addAll(media.filter((url) => !have.has(pathOf(url))).map(fresh))
+    }
     await sw.skipWaiting()
   })())
 })
@@ -85,7 +95,7 @@ sw.addEventListener('fetch', (event) => {
   if (url.origin !== sw.location.origin) return
 
   if (request.mode === 'navigate') event.respondWith(navigate(event))
-  else if (/^\/(sounds|grooves)\//.test(url.pathname)) event.respondWith(cacheFirst(request, MEDIA_CACHE))
+  else if (/^\/(sounds|grooves)\//.test(url.pathname)) event.respondWith(DEV_MEDIA ? networkFirst(request, MEDIA_CACHE) : cacheFirst(request, MEDIA_CACHE))
   else if (url.pathname.startsWith('/fonts/')) event.respondWith(cacheFirst(request, SHELL_CACHE))
   else event.respondWith(staleWhileRevalidate(event))
 })
@@ -94,8 +104,8 @@ sw.addEventListener('fetch', (event) => {
 async function navigate (/** @type {FetchEvent} */ event) {
   const cache = await caches.open(SHELL_CACHE)
   try {
-    const response = (await event.preloadResponse) || (await fetch(event.request))
-    if (response.ok && pathOf(event.request.url) === '/') event.waitUntil(cache.put('/', response.clone()))
+    const response = (await event.preloadResponse) || (await fetch(event.request, REVALIDATE))
+    if (pathOf(event.request.url) === '/') event.waitUntil(keep(cache, '/', response.clone()))
     return response
   } catch {
     return (await cache.match('/')) || Response.error()
@@ -105,8 +115,8 @@ async function navigate (/** @type {FetchEvent} */ event) {
 async function staleWhileRevalidate (/** @type {FetchEvent} */ event) {
   const cache = await caches.open(SHELL_CACHE)
   const cached = await cache.match(event.request, { ignoreSearch: true })
-  const refresh = fetch(event.request).then(async (response) => {
-    if (response.ok) await cache.put(event.request, response.clone())
+  const refresh = fetch(event.request, REVALIDATE).then(async (response) => {
+    await keep(cache, event.request, response.clone())
     return response
   })
   if (!cached) return refresh
@@ -117,14 +127,45 @@ async function staleWhileRevalidate (/** @type {FetchEvent} */ event) {
 async function cacheFirst (/** @type {Request} */ request, /** @type {string} */ cacheName) {
   const cache = await caches.open(cacheName)
   const ranged = request.headers.has('range')
-  const cached = await cache.match(request, { ignoreSearch: true })
-  if (cached) return ranged ? sliceRange(request, cached) : cached
+  const cached = (await cache.match(request, { ignoreSearch: true })) || ((await fill(request.url, cache)) && (await cache.match(request.url)))
+  // not cacheable (non-200, quota): pass the network answer through untouched
+  if (!cached) return fetch(request)
+  return ranged ? sliceRange(request, cached) : cached
+}
 
-  // miss: fetch the whole file (never a partial one), keep it, answer the range from it
-  const response = await fetch(ranged ? request.url : request)
-  if (response.status !== 200) return response
-  await cache.put(request.url, response.clone())
-  return ranged ? sliceRange(request, response) : response
+/** Local dev: ask the network first and fall back to what is cached. */
+async function networkFirst (/** @type {Request} */ request, /** @type {string} */ cacheName) {
+  const cache = await caches.open(cacheName)
+  try {
+    const response = await fetch(request, REVALIDATE)
+    await keep(cache, request.url, response.clone())
+    return response
+  } catch (error) {
+    const cached = await cache.match(request, { ignoreSearch: true })
+    if (!cached) throw error
+    return request.headers.has('range') ? sliceRange(request, cached) : cached
+  }
+}
+
+/** Downloads a whole file into the cache; concurrent callers for one url share the download. */
+function fill (/** @type {string} */ url, /** @type {Cache} */ cache) {
+  let pending = inflight.get(url)
+  if (!pending) {
+    pending = (async () => keep(cache, url, await fetch(url, REVALIDATE)))().finally(() => inflight.delete(url))
+    inflight.set(url, pending)
+  }
+  return pending
+}
+
+/** Stores a good (200) response; a failing put (quota) never turns it into an error. */
+async function keep (/** @type {Cache} */ cache, /** @type {RequestInfo} */ key, /** @type {Response} */ response) {
+  if (response.status !== 200) return false
+  try {
+    await cache.put(key, response)
+    return true
+  } catch {
+    return false
+  }
 }
 
 /** Media elements (Safari in particular) ask for byte ranges; the cache only holds full responses. */

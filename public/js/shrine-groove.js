@@ -69,9 +69,15 @@ export class ShrineGroove extends HTMLElement {
   }
 
   #stop () {
-    this.#audio?.pause()
-    this.#audio?.remove()
+    const audio = this.#audio
     this.#audio = null
+    if (audio?.paused === false) {
+      // leave it in the DOM until its pause event has reached the page (see app.js)
+      audio.addEventListener('pause', () => audio.remove(), { once: true })
+      audio.pause()
+    } else {
+      audio?.remove()
+    }
     if ('mediaSession' in navigator) {
       const session = navigator.mediaSession
       session.playbackState = 'none'

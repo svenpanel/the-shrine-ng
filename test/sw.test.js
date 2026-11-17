@@ -31,7 +31,7 @@ function expectedMediaHash () {
 }
 
 /** Runs a service worker file against in-memory caches; `store` can be shared across workers. */
-function loadWorker ({ file = join(publicDir, 'sw.js'), store = new Map() } = {}) {
+function loadWorker ({ file = join(publicDir, 'sw.js'), store = new Map(), putFails = false } = {}) {
   const handlers = {}
   const calls = []
   const deleted = []
@@ -45,7 +45,10 @@ function loadWorker ({ file = join(publicDir, 'sw.js'), store = new Map() } = {}
           addAllBatches.push({ name, paths: requests.map(pathOf), reload: requests.every((r) => r.cache === 'reload') })
           for (const request of requests) entries.set(pathOf(request), new Response(`body of ${pathOf(request)}`))
         },
-        put: async (key, response) => { entries.set(pathOf(key), response) },
+        put: async (key, response) => {
+          if (putFails) throw new Error('QuotaExceededError')
+          entries.set(pathOf(key), response)
+        },
         match: async (request) => entries.get(pathOf(request))?.clone(),
         keys: async () => [...entries.keys()].map((path) => ({ url: origin + path }))
       }
@@ -60,9 +63,12 @@ function loadWorker ({ file = join(publicDir, 'sw.js'), store = new Map() } = {}
     registration: { navigationPreload: { enable: async () => { calls.push('navigationPreload') } } },
     location: { origin }
   }
-  const network = { offline: false }
-  const diskFetch = async (input) => {
+  const network = { offline: false, gate: null }
+  const fetches = []
+  const diskFetch = async (input, init) => {
+    fetches.push({ path: pathOf(input), init })
     if (network.offline) throw new TypeError('offline')
+    if (network.gate) await network.gate
     const path = join(publicDir, pathOf(input) === '/' ? 'index.html' : pathOf(input))
     return existsSync(path) ? new Response(readFileSync(path)) : new Response(null, { status: 404 })
   }
@@ -86,9 +92,11 @@ function loadWorker ({ file = join(publicDir, 'sw.js'), store = new Map() } = {}
     await Promise.all(pending)
     return response
   }
-  return { store, network, calls, deleted, addAllBatches, install: () => lifecycle('install'), activate: () => lifecycle('activate'), fetchEvent }
+  return { store, network, fetches, calls, deleted, addAllBatches, install: () => lifecycle('install'), activate: () => lifecycle('activate'), fetchEvent }
 }
 
+const mediaName = `media-${expectedMediaHash()}`
+const stampedWorker = (options = {}) => loadWorker({ file: stampedCopy('0123456789abcdef'), ...options })
 const get = (path, headers) => new Request(origin + path, { headers })
 
 test('stamp script replaces both tokens with the commit and the media hash', () => {
@@ -147,7 +155,7 @@ test('a new deploy replaces the shell cache and keeps media whose hash is unchan
 })
 
 test('precache requests bypass the HTTP cache', async () => {
-  const worker = loadWorker()
+  const worker = stampedWorker()
   await worker.install()
 
   assert.ok(worker.addAllBatches.length >= 2)
@@ -155,16 +163,16 @@ test('precache requests bypass the HTTP cache', async () => {
 })
 
 test('cache-first media: miss is fetched whole, stored and then served from the cache', async () => {
-  const worker = loadWorker()
+  const worker = stampedWorker()
   const file = mp3s('sounds')[0]
 
   const response = await worker.fetchEvent(get(`/sounds/${file}`))
   assert.equal(response.status, 200)
-  assert.ok(worker.store.get('media-dev').has(`/sounds/${file}`))
+  assert.ok(worker.store.get(mediaName).has(`/sounds/${file}`))
 })
 
 test('range requests on cached media: 206 slice, 416 past the end, full body for bytes=-', async () => {
-  const worker = loadWorker()
+  const worker = stampedWorker()
   const file = mp3s('sounds')[0]
   const size = readFileSync(join(publicDir, 'sounds', file)).byteLength
   await worker.fetchEvent(get(`/sounds/${file}`))
@@ -184,12 +192,12 @@ test('range requests on cached media: 206 slice, 416 past the end, full body for
 })
 
 test('range request on an uncached file fetches it whole and caches it', async () => {
-  const worker = loadWorker()
+  const worker = stampedWorker()
   const file = mp3s('grooves')[0]
 
   const slice = await worker.fetchEvent(get(`/grooves/${file}`, { range: 'bytes=0-9' }))
   assert.equal(slice.status, 206)
-  assert.ok(worker.store.get('media-dev').has(`/grooves/${file}`))
+  assert.ok(worker.store.get(mediaName).has(`/grooves/${file}`))
 })
 
 test('shell files are served stale and refreshed in the background', async () => {
@@ -214,4 +222,82 @@ test('navigations are cached as "/" and fall back to it offline', async () => {
   worker.network.offline = true
   const offline = await worker.fetchEvent(navigation)
   assert.equal(await offline.text(), readFileSync(join(publicDir, 'index.html'), 'utf8'))
+})
+
+test('stale-while-revalidate and navigation fetches revalidate instead of trusting the HTTP cache', async () => {
+  const worker = loadWorker()
+  await worker.install()
+  worker.fetches.length = 0
+
+  await worker.fetchEvent(get('/style.css'))
+  await worker.fetchEvent({ method: 'GET', url: `${origin}/`, mode: 'navigate', headers: new Headers() })
+
+  assert.equal(worker.fetches.length, 2)
+  for (const { init } of worker.fetches) assert.equal(init?.cache, 'no-cache')
+})
+
+test('unstamped (dev) worker: no media precache, network first, cache only as offline fallback', async () => {
+  const worker = loadWorker()
+  const file = mp3s('sounds')[0]
+  const disk = readFileSync(join(publicDir, 'sounds', file))
+  await worker.install()
+  assert.ok(!worker.store.has('media-dev'), 'nothing precached')
+
+  worker.store.set('media-dev', new Map([[`/sounds/${file}`, new Response('stale audio')]]))
+  const online = await worker.fetchEvent(get(`/sounds/${file}`))
+  assert.deepEqual(Buffer.from(await online.arrayBuffer()), disk, 'replaced audio wins over the cache')
+  assert.equal(worker.fetches.at(-1).init.cache, 'no-cache')
+
+  worker.network.offline = true
+  const offline = await worker.fetchEvent(get(`/sounds/${file}`))
+  assert.deepEqual(Buffer.from(await offline.arrayBuffer()), disk, 'offline falls back to the refreshed copy')
+})
+
+test('concurrent range misses share one download', async () => {
+  const worker = stampedWorker()
+  const file = mp3s('sounds')[0]
+  let open
+  worker.network.gate = new Promise((resolve) => { open = resolve })
+
+  const both = Promise.all([
+    worker.fetchEvent(get(`/sounds/${file}`, { range: 'bytes=0-1' })),
+    worker.fetchEvent(get(`/sounds/${file}`, { range: 'bytes=2-3' }))
+  ])
+  await new Promise((resolve) => setTimeout(resolve, 20))
+  open()
+  const [first, second] = await both
+
+  assert.equal(worker.fetches.filter(({ path }) => path === `/sounds/${file}`).length, 1)
+  assert.equal(first.status, 206)
+  assert.equal(second.headers.get('content-range').startsWith('bytes 2-3/'), true)
+
+  await worker.fetchEvent(get(`/sounds/${file}`)) // the entry was released: a later miss would fetch again
+  assert.equal(worker.fetches.filter(({ path }) => path === `/sounds/${file}`).length, 1, 'now served from cache')
+})
+
+test('only 200 responses are cached and a failing put never breaks the response', async () => {
+  const missing = stampedWorker()
+  const notFound = await missing.fetchEvent(get('/sounds/nope.mp3'))
+  assert.equal(notFound.status, 404)
+  assert.ok(!missing.store.get(mediaName)?.has('/sounds/nope.mp3'))
+
+  const file = mp3s('sounds')[0]
+  const quota = stampedWorker({ putFails: true })
+  const media = await quota.fetchEvent(get(`/sounds/${file}`))
+  assert.equal(media.status, 200)
+  assert.equal((await media.arrayBuffer()).byteLength, readFileSync(join(publicDir, 'sounds', file)).byteLength)
+
+  const page = await quota.fetchEvent({ method: 'GET', url: `${origin}/`, mode: 'navigate', headers: new Headers() })
+  assert.equal(page.status, 200)
+  const css = await quota.fetchEvent(get('/style.css'))
+  assert.equal(css.status, 200)
+})
+
+test('stamp script fails when the media cannot be hashed and leaves the worker untouched', () => {
+  const copy = join(mkdtempSync(join(tmpdir(), 'shrine-sw-')), 'sw.js')
+  copyFileSync(join(publicDir, 'sw.js'), copy)
+  const emptyPublic = mkdtempSync(join(tmpdir(), 'shrine-empty-'))
+
+  assert.throws(() => execFileSync('sh', [stampScript, copy, emptyPublic], { env: { ...process.env, GITHUB_SHA: '0123456789abcdef' }, stdio: 'pipe' }))
+  assert.equal(readFileSync(copy, 'utf8'), readFileSync(join(publicDir, 'sw.js'), 'utf8'))
 })

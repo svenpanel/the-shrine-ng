@@ -31,7 +31,11 @@ export class ShrineSound extends HTMLElement {
   }
 
   play () {
-    new Audio(`/sounds/${this.getAttribute('file')}`).play().catch(() => {})
+    const audio = new Audio(`/sounds/${this.getAttribute('file')}`)
+    // in the DOM while playing, so page-level code can see (and listen to) running sounds
+    for (const type of ['ended', 'error']) audio.addEventListener(type, () => audio.remove())
+    this.append(audio)
+    audio.play().catch(() => audio.remove())
   }
 }
 
