@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { parseCatalog } from '../public/js/sounds.js'
+import { mediaPath, parseCatalog } from '../public/js/sounds.js'
 
 const publicDir = join(import.meta.dirname, '..', 'public')
 const read = (file) => readFileSync(join(publicDir, file), 'utf8')
@@ -57,6 +57,11 @@ test('manifest is installable and its icons exist', () => {
   assert.equal(manifest.id, '/?standalone=true')
   assert.deepEqual(manifest.display_override, ['standalone'])
   for (const icon of manifest.icons) assert.ok(existsSync(join(publicDir, icon.src)), icon.src)
+})
+
+test('mediaPath builds a site-absolute media path', () => {
+  assert.equal(mediaPath('sounds', 'a.mp3'), '/sounds/a.mp3')
+  assert.equal(mediaPath('grooves', 'b.mp3'), '/grooves/b.mp3')
 })
 
 test('parseCatalog validates entries', () => {

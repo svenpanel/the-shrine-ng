@@ -1,5 +1,7 @@
 // @ts-check
 
+import { mediaPath } from './sounds.js'
+
 /**
  * <shrine-sound file="30_laune1.mp3" label="Gude Laune">
  * Plays /sounds/<file> when its button is pressed (click, Enter or Space) or the
@@ -79,7 +81,7 @@ export class ShrineSound extends HTMLElement {
   }
 
   async share (name) {
-    const url = new URL(`/sounds/${this.getAttribute('file')}`, location.origin).href
+    const url = new URL(mediaPath('sounds', this.getAttribute('file')), location.origin).href
     const result = await shareSound({ label: this.getAttribute('label'), url }, navigator)
     if (result !== 'copied') return
     name.classList.add('is-copied')
@@ -87,7 +89,7 @@ export class ShrineSound extends HTMLElement {
   }
 
   play () {
-    const audio = new Audio(`/sounds/${this.getAttribute('file')}`)
+    const audio = new Audio(mediaPath('sounds', this.getAttribute('file')))
     // in the DOM while playing, so page-level code can see (and listen to) running sounds
     for (const type of ['ended', 'error']) audio.addEventListener(type, () => audio.remove())
     this.append(audio)

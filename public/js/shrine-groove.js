@@ -1,5 +1,7 @@
 // @ts-check
 
+import { mediaPath } from './sounds.js'
+
 /** @typedef {import('./sounds.js').CatalogEntry} CatalogEntry */
 
 /**
@@ -34,8 +36,7 @@ export class ShrineGroove extends HTMLElement {
     button.querySelector('.groove-player__marquee > span').textContent = groove.name
     button.addEventListener('click', () => {
       const wasPlaying = button.contains(this.#audio)
-      this.#stop()
-      if (!wasPlaying) this.#start(button, groove)
+      wasPlaying ? this.#stop() : this.#start(button, groove)
     })
     return button
   }
@@ -46,7 +47,7 @@ export class ShrineGroove extends HTMLElement {
    */
   #start (button, groove) {
     this.#stop()
-    const audio = new Audio(`/grooves/${groove.file}`)
+    const audio = new Audio(mediaPath('grooves', groove.file))
     audio.loop = true
     button.append(audio)
     this.#audio = audio

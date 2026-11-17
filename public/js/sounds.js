@@ -1,5 +1,5 @@
 // @ts-check
-// Pure catalog logic: no DOM access, importable from node:test.
+// Pure catalog and media paths: no DOM access, importable from node:test.
 
 /** @typedef {{ file: string, name: string }} CatalogEntry */
 
@@ -17,6 +17,13 @@ export function parseCatalog (data) {
     return { file: entry.file, name: entry.name }
   })
 }
+
+/**
+ * Site-absolute URL path of a media file.
+ * @param {'sounds' | 'grooves'} dir
+ * @param {string} file
+ */
+export const mediaPath = (dir, file) => `/${dir}/${file}`
 
 /**
  * @param {string} url
