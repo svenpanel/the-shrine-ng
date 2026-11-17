@@ -11,6 +11,10 @@ Well, to:
 - [x] keep the authentic design (for now), but make it usable on small screens.
 - [x] allow it to be used offline.
 
+## Using it
+
+Tap a sound to play it. Long-press / right-click a sound to share it.
+
 ## Adding a groove
 
 1. Make sure it's freely usable.

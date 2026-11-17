@@ -4,7 +4,33 @@
  * <shrine-sound file="30_laune1.mp3" label="Gude Laune">
  * Plays /sounds/<file> when its button is pressed (click, Enter or Space) or the
  * decorative knob below it is tapped. Sounds overlap on purpose.
+ * A long-press or right-click (contextmenu) shares the direct mp3 URL instead.
  */
+
+/**
+ * Share a sound's absolute mp3 URL: native share sheet when available, else clipboard.
+ * @param {{ label: string, url: string }} sound
+ * @param {Pick<Navigator, 'share' | 'canShare' | 'clipboard'>} nav
+ * @returns {Promise<'shared' | 'copied' | 'cancelled' | 'failed'>}
+ */
+export async function shareSound ({ label, url }, nav) {
+  const data = { title: label, url }
+  if (nav.share && nav.canShare?.(data)) {
+    try {
+      await nav.share(data)
+      return 'shared'
+    } catch (error) {
+      if (error?.name === 'AbortError') return 'cancelled'
+    }
+  }
+  try {
+    await nav.clipboard.writeText(url)
+    return 'copied'
+  } catch (error) {
+    console.warn('could not share sound', error)
+    return 'failed'
+  }
+}
 export class ShrineSound extends HTMLElement {
   connectedCallback () {
     if (this.hasChildNodes()) return
@@ -22,6 +48,18 @@ export class ShrineSound extends HTMLElement {
 
     this.append(name, knob)
     this.addEventListener('click', () => this.play())
+    name.addEventListener('contextmenu', (event) => {
+      event.preventDefault()
+      this.share(name)
+    })
+  }
+
+  async share (name) {
+    const url = new URL(`/sounds/${this.getAttribute('file')}`, location.origin).href
+    const result = await shareSound({ label: this.getAttribute('label'), url }, navigator)
+    if (result !== 'copied') return
+    name.classList.add('is-copied')
+    setTimeout(() => name.classList.remove('is-copied'), 600)
   }
 
   play () {
