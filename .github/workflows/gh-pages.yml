@@ -15,23 +15,20 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: "yarn"
 
-      - run: yarn install --frozen-lockfile
-      # generates .output/public and asserts on it
-      - run: yarn run test
+      - run: node --test 'test/*.test.js'
 
       - name: create .well-known folder
-        run: mkdir -p ./.output/public/.well-known
-      - run: echo '${{ secrets.BRAVE_REWARDS_VERIFICATION }}' > ./.output/public/.well-known/brave-rewards-verification.txt
+        run: mkdir -p ./public/.well-known
+      - run: echo '${{ secrets.BRAVE_REWARDS_VERIFICATION }}' > ./public/.well-known/brave-rewards-verification.txt
 
-      - run: echo '${{ secrets.GOOGLE_SITE_VERIFICATION_CONTENT }}' > './.output/public/${{ secrets.GOOGLE_SITE_VERIFICATION_FILE_NAME }}'
+      - run: echo '${{ secrets.GOOGLE_SITE_VERIFICATION_CONTENT }}' > './public/${{ secrets.GOOGLE_SITE_VERIFICATION_FILE_NAME }}'
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.output/public
+          publish_dir: ./public
           cname: theshrine.pw
           force_orphan: true
           user_name: "github-actions[bot]"
