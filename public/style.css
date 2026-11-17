@@ -1,0 +1,360 @@
+@layer reset, base, components;
+
+/* the parts of normalize.css v8 this page needs, plus the global box reset */
+@layer reset {
+  html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body { margin: 0; }
+  main { display: block; }
+
+  sub {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+    bottom: -0.25em;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    overflow: visible;
+    text-transform: none;
+    -webkit-appearance: button;
+  }
+
+  audio:not([controls]) { display: none; }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+}
+
+@layer base {
+  :root {
+    --color-background: hsl(0 0% 0%);
+    --color-primary: hsl(0 0% 100%);
+    --color-white: hsl(0 0% 100%);
+    --color-red: hsl(360 99% 49%);
+    --color-red-light: hsl(0 99% 99%); /* red, lightness +50% */
+    --shrine-background: hsl(0 0% 47%);
+    --shrine-border-color: hsl(0 0% 20%);
+    --knob-color: hsl(0 0% 27%);
+    --knob-color-100: hsl(0 0% 67%);
+    --content-background-color: hsl(0 0% 7%);
+    --padding: 1rem;
+  }
+
+  @font-face {
+    font-family: 'Keania One';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src:
+      local('Keania One'),
+      local('KeaniaOne-Regular'),
+      url('/fonts/Keania_One/KeaniaOne-Regular.woff2') format('woff2'),
+      url('/fonts/Keania_One/KeaniaOne-Regular.ttf') format('truetype');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  html {
+    font-family: 'Keania One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    word-spacing: 1px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--color-background);
+    container: page / inline-size; /* the sound grid answers to the page width */
+  }
+}
+
+@layer components {
+  /* shared: red glow text, raised knob */
+  .index__headline span,
+  .index__sound-name,
+  .index__content > h2,
+  .groove-player__display {
+    text-shadow: 0 0 0.4em color-mix(in srgb, var(--color-red) 90%, transparent);
+    color: var(--color-red);
+  }
+
+  .index__sound-knob,
+  .groove-player__button {
+    background: linear-gradient(-5deg, var(--knob-color) 0%, var(--knob-color-100) 100%);
+    box-shadow: 0 0 0.4em color-mix(in srgb, var(--knob-color) 40%, transparent);
+    border: 1px solid color-mix(in srgb, var(--knob-color) 70%, transparent);
+    cursor: pointer;
+  }
+
+  @keyframes blinker {
+    50% { color: var(--color-white); }
+  }
+
+  .index {
+    width: 100%;
+    max-width: 95vw;
+    margin: 0.1rem auto;
+    padding: 0 0.5rem 25dvh;
+    color: var(--color-primary);
+  }
+
+  .index__shrine {
+    box-shadow: 0 0 1rem color-mix(in srgb, var(--shrine-background) 70%, transparent);
+    border-radius: 2px;
+    border-color: var(--shrine-border-color);
+    background:
+      radial-gradient(color-mix(in srgb, var(--shrine-border-color) 25%, transparent) 15%, transparent 16%) 0 0,
+      radial-gradient(color-mix(in srgb, var(--shrine-border-color) 25%, transparent) 15%, transparent 16%) 0.5rem 0.5rem,
+      radial-gradient(color-mix(in srgb, var(--color-white) 10%, transparent) 15%, transparent 20%) 0 0.05rem,
+      radial-gradient(color-mix(in srgb, var(--color-white) 10%, transparent) 15%, transparent 20%) 0.5rem 0.55rem;
+    background-color: var(--shrine-background);
+    background-size: 0.75rem 0.75rem;
+  }
+
+  .index__headline {
+    padding: 1rem var(--padding) 0;
+    text-align: center;
+    line-height: 1;
+    margin: 1.5rem auto 3rem;
+    font-size: 2em;
+
+    & span {
+      width: 100%;
+      font-size: 1.5rem;
+      padding: 0.75rem 1rem 0.5rem;
+      display: inline-block;
+      background-color: var(--color-background);
+      letter-spacing: 0.2rem;
+      border: 0.4rem outset var(--knob-color);
+    }
+
+    & sub {
+      font-style: italic;
+      transform: rotate(-10.6deg);
+      display: inline-block;
+      margin-left: -2.5rem;
+      padding-top: 1rem;
+      color: color-mix(in srgb, var(--color-white) 75%, transparent);
+      letter-spacing: -0.05rem;
+      animation: blinker 1.5s ease-out infinite;
+    }
+  }
+
+  .index__sounds {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 0 var(--padding);
+  }
+
+  .index__sound {
+    margin: 0 0 0.25rem;
+    padding: 0.25rem 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: border 0.2s;
+
+    &:focus {
+      outline: 2px solid var(--color-red);
+      z-index: 1;
+    }
+
+    &:hover .index__sound-name {
+      border-style: inset;
+      border-color: color-mix(in srgb, var(--knob-color) 75%, transparent);
+    }
+
+    &:hover .index__sound-knob {
+      background: var(--knob-hover);
+    }
+  }
+
+  .index__sound-name {
+    border: 0.4rem outset color-mix(in srgb, var(--knob-color) 25%, transparent);
+    background-color: var(--color-background);
+    min-height: 3.6rem;
+    hyphens: auto;
+    line-height: 1.1;
+    letter-spacing: 0.025rem;
+    font-style: italic;
+    padding: 0.5rem 0.15rem;
+    margin-bottom: 0.25rem;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .index__sound-knob {
+    --knob-hover: linear-gradient(
+      175deg,
+      color-mix(in srgb, var(--color-red-light) 50%, transparent) 0%,
+      color-mix(in srgb, var(--color-red) 90%, transparent) 100%
+    );
+
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    transition: background 0.3s ease-in;
+    height: 2rem;
+    width: 2rem;
+    font-size: 0;
+    display: block;
+
+    &:hover {
+      background: var(--knob-hover);
+    }
+  }
+
+  .index__content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 4rem 0;
+    padding: 1rem;
+    border-radius: 2px;
+    background-color: var(--content-background-color);
+
+    & > h2 {
+      font-style: italic;
+      text-align: center;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      color: color-mix(in srgb, var(--color-white) 75%, transparent);
+      animation: blinker 5s ease-out infinite;
+    }
+
+    & p {
+      max-width: 80ch;
+      line-height: 1.61;
+      margin: 0 auto;
+      color: #ccc;
+    }
+
+    & a {
+      color: #eee;
+      text-decoration-color: var(--color-red);
+      text-decoration-style: dotted;
+
+      &:hover {
+        color: var(--color-white);
+        text-decoration-style: solid;
+      }
+    }
+  }
+
+  .index__groove-player {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, var(--knob-color-100) 0%, var(--knob-color) 100%);
+    border-top: 1px solid var(--knob-color);
+    box-shadow: 0 0 0.05em var(--knob-color-100);
+    left: 0;
+    width: 100%;
+  }
+
+  /* <shrine-groove>: the playing row owns an <audio>, so :has(> audio) is the state */
+  shrine-groove {
+    display: block;
+  }
+
+  .groove-player {
+    padding: 1rem;
+
+    & > button {
+      background-color: var(--knob-color);
+      cursor: pointer;
+      height: 2rem;
+      border: 0;
+      padding: 0;
+      line-height: 2rem;
+      width: 100%;
+      outline: 0;
+
+      & > span {
+        display: flex;
+        border: 1px solid var(--color-background);
+        background-color: var(--color-background);
+        box-shadow: 0 0 1px var(--knob-color);
+      }
+
+      & .groove-player__button::before { content: '►'; }
+      & .groove-player__marquee { display: none; }
+
+      &:has(> audio) {
+        & .groove-player__button::before { content: '❚❚'; }
+        & .groove-player__idle { display: none; }
+        & .groove-player__marquee { display: block; }
+      }
+    }
+  }
+
+  .groove-player__button {
+    border: 0;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .groove-player__display {
+    height: 2rem;
+    padding: 0 1rem;
+    line-height: 2rem;
+    background-color: var(--color-background);
+    text-align: center;
+    flex: 1;
+    text-transform: uppercase;
+  }
+
+  /* replaces <marquee>: scrolls right to left, stands still when motion is reduced */
+  .groove-player__marquee {
+    margin: 0 1rem;
+    letter-spacing: 0.33em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    & > span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 10s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      & > span {
+        padding-left: 0;
+        animation: none;
+      }
+    }
+  }
+
+  @keyframes marquee {
+    to { transform: translateX(-100%); }
+  }
+
+  /* sound grid columns */
+  @container page (width >= 801px) { .index__sound { flex: 1 1 12%; margin-bottom: 0; padding: 0; } }
+  @container page (width <= 800px) { .index__sound { flex: 1 1 16%; margin-bottom: 0; padding: 0; } }
+  @container page (width <= 700px) { .index__sound { flex: 1 1 33%; margin-bottom: 0; padding: 0; } }
+  @container page (width <= 480px) { .index__sound { flex: 1 1 49%; margin-bottom: 0; padding: 0; } }
+  @container page (width <= 240px) { .index__sound { flex: 1 1 100%; margin-bottom: 0; padding: 0; } }
+
+  @container page (width <= 480px) {
+    .index__sound { margin: auto 0.5%; }
+    .index__sound-knob { display: none; }
+  }
+}

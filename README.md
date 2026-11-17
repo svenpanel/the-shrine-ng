@@ -19,24 +19,18 @@ Well, to:
 4. add it to the `public/grooves` folder
 5. add it to the `public/grooves.json` file
 
-## Build Setup
+## Development
+
+No dependencies and no build step: `public/` is the site. Native ES modules and custom elements live in `public/js/`, styles in `public/style.css`.
 
 ```bash
-# install dependencies
-$ yarn install
+# serve public/ at localhost:3000 (any static server works)
+$ python3 -m http.server -d public 3000
 
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# generate the static site into .output/public
-$ yarn run generate
-
-# preview the production build
-$ yarn run build
-$ yarn start
-
-# generate and check the static output
-$ yarn test
+# run the tests (node:test, no install needed)
+$ node --test 'test/*.test.js'
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt docs](https://nuxt.com/docs).
+Adding a sound: drop the mp3 into `public/sounds/`, add it to `public/sounds.json`, and add a matching preload link to `public/index.html`. The tests fail if any of the three is missing. The service worker precaches whatever the JSON files list.
+
+Changing a shell file (html, css, js): list new files in `SHELL` in `public/sw.js`; the tests check it. Bump `VERSION` there to evict old caches.
