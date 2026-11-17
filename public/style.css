@@ -219,7 +219,8 @@
     border-radius: var(--radius-1);
     box-shadow: inset 0 0 1rem color-mix(in srgb, var(--color-red) 12%, transparent);
     min-height: 3.6rem;
-    hyphens: auto;
+    hyphens: manual;
+    overflow-wrap: normal;
     line-height: 1.1;
     letter-spacing: 0.025rem;
     font-style: italic;

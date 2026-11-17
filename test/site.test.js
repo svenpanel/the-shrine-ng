@@ -126,3 +126,12 @@ test('style.css keeps to the palette tokens and adds the touch and focus polish'
   assert.match(css, /:focus-visible/)
   assert.match(css, /touch-action: manipulation/)
 })
+
+test('sound labels break only at spaces, never inside a word', () => {
+  const css = read('style.css')
+  const rule = css.match(/^ {2}\.index__sound-name \{([^}]*)\}/m)?.[1] ?? ''
+
+  assert.match(rule, /hyphens: manual/)
+  assert.match(rule, /overflow-wrap: normal/)
+  assert.doesNotMatch(css, /hyphens: auto|word-break: (break-all|break-word)/)
+})
