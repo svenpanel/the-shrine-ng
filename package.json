@@ -8,20 +8,7 @@
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "start": "nuxt preview",
-    "generate": "nuxt generate",
-    "postinstall": "nuxt prepare",
+    "start": "python3 -m http.server -d public 3000",
     "test": "node --test 'test/*.test.js'"
-  },
-  "dependencies": {
-    "@vite-pwa/nuxt": "^2.0.1",
-    "normalize.css": "^8.0.1",
-    "nuxt": "^4.6.4"
-  },
-  "devDependencies": {
-    "@vite-pwa/assets-generator": "^2.0.0",
-    "sass": "^1.108.2"
   }
 }
