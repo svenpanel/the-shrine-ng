@@ -33,7 +33,8 @@ export class ShrineGroove extends HTMLElement {
         <span class="groove-player__display groove-player__idle">Play a groove</span>
         <span class="groove-player__display groove-player__marquee"><span></span></span>
       </span>`
-    button.querySelector('.groove-player__marquee > span').textContent = groove.name
+    const marquee = button.querySelector('.groove-player__marquee > span')
+    if (marquee) marquee.textContent = groove.name
     button.addEventListener('click', () => {
       const wasPlaying = button.contains(this.#audio)
       wasPlaying ? this.#stop() : this.#start(button, groove)

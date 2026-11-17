@@ -22,7 +22,7 @@ export async function shareSound ({ label, url }, nav) {
       await nav.share(data)
       return 'shared'
     } catch (error) {
-      if (error?.name === 'AbortError') return 'cancelled'
+      if (error instanceof DOMException && error.name === 'AbortError') return 'cancelled'
     }
   }
   try {
@@ -34,6 +34,8 @@ export async function shareSound ({ label, url }, nav) {
   }
 }
 export class ShrineSound extends HTMLElement {
+  #heldClick = false
+
   connectedCallback () {
     if (this.hasChildNodes()) return
 
@@ -50,12 +52,13 @@ export class ShrineSound extends HTMLElement {
 
     this.append(name, knob)
     this.addEventListener('click', () => {
-      if (this.heldClick) return (this.heldClick = false)
+      if (this.#heldClick) return (this.#heldClick = false)
       this.play()
     })
 
     // iOS WebKit rarely fires contextmenu on touch, so a touch hold shares from pointerup,
     // where the transient user activation navigator.share needs is still granted
+    /** @type {{ time: number, x: number, y: number } | null} */
     let hold = null
     name.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse') return
@@ -69,27 +72,28 @@ export class ShrineSound extends HTMLElement {
       const held = hold && event.timeStamp - hold.time >= 500
       hold = null
       if (!held) return
-      this.heldClick = true // swallow the click that follows (if none comes, expire)
-      setTimeout(() => { this.heldClick = false }, 400)
+      this.#heldClick = true // swallow the click that follows (if none comes, expire)
+      setTimeout(() => { this.#heldClick = false }, 400)
       this.share(name)
     })
     // mouse and desktop path; a touch hold is shared by pointerup instead
     name.addEventListener('contextmenu', (event) => {
       event.preventDefault()
-      if (!hold && !this.heldClick) this.share(name)
+      if (!hold && !this.#heldClick) this.share(name)
     })
   }
 
+  /** @param {HTMLElement} name */
   async share (name) {
-    const url = new URL(mediaPath('sounds', this.getAttribute('file')), location.origin).href
-    const result = await shareSound({ label: this.getAttribute('label'), url }, navigator)
+    const url = new URL(mediaPath('sounds', this.getAttribute('file') ?? ''), location.origin).href
+    const result = await shareSound({ label: this.getAttribute('label') ?? '', url }, navigator)
     if (result !== 'copied') return
     name.classList.add('is-copied')
     setTimeout(() => name.classList.remove('is-copied'), 600)
   }
 
   play () {
-    const audio = new Audio(mediaPath('sounds', this.getAttribute('file')))
+    const audio = new Audio(mediaPath('sounds', this.getAttribute('file') ?? ''))
     // in the DOM while playing, so page-level code can see (and listen to) running sounds
     for (const type of ['ended', 'error']) audio.addEventListener(type, () => audio.remove())
     this.append(audio)
