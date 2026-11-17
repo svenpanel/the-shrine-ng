@@ -25,7 +25,6 @@ export class ShrineGroove extends HTMLElement {
   #row (groove) {
     const button = document.createElement('button')
     button.type = 'button'
-    button.tabIndex = 2
     button.innerHTML = `
       <span>
         <span class="groove-player__button"></span>

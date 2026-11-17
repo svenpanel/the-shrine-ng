@@ -71,3 +71,58 @@ test('styles the headline in shrine red', () => {
   assert.match(css, /--color-red: hsl\(360 99% 49%\)/)
   assert.match(css, /\.index__headline span,[^{]*\{[^}]*color: var\(--color-red\)/)
 })
+
+test('viewport covers the safe areas and stays unscalable', () => {
+  const viewport = html.match(/<meta name="viewport" content="([^"]+)"/)?.[1]
+  assert.ok(viewport?.includes('viewport-fit=cover'))
+  assert.ok(viewport.includes('user-scalable=0'))
+})
+
+test('keeps the headline, catalogs and groove wiring unchanged', () => {
+  assert.match(html, /<h1 class="index__headline">\s*<span>\s*The Shrine\s*<sub>next generation<\/sub>\s*<\/span>\s*<\/h1>/)
+  assert.match(html, /<h2>„1, 2, 3 – gude Laune!“<\/h2>/)
+  assert.match(html, /<shrine-groove class="groove-player index__groove-player" id="groove-player">/)
+  const app = read('js/app.js')
+  assert.match(app, /loadCatalog\('\/sounds\.json'\)/)
+  assert.match(app, /loadCatalog\('\/grooves\.json'\)/)
+})
+
+test('every sound is one focusable named button; the knob is decorative', async () => {
+  class FakeElement {
+    children = []
+    attrs = {}
+    className = ''
+    textContent = ''
+    hasChildNodes () { return this.children.length > 0 }
+    getAttribute (name) { return this.attrs[name] ?? null }
+    setAttribute (name, value) { this.attrs[name] = value }
+    append (...nodes) { this.children.push(...nodes) }
+    addEventListener () {}
+  }
+  globalThis.HTMLElement = FakeElement
+  globalThis.customElements = { define () {} }
+  globalThis.document = { createElement: (type) => Object.assign(new FakeElement(), { type }) }
+
+  const { ShrineSound } = await import('../public/js/shrine-sound.js')
+  const sound = new ShrineSound()
+  sound.setAttribute('label', 'Gude Laune')
+  sound.connectedCallback()
+
+  const buttons = sound.children.filter((child) => child.type === 'button')
+  assert.equal(buttons.length, 1)
+  assert.equal(buttons[0].textContent, 'Gude Laune')
+  assert.equal(buttons[0].attrs.tabindex, undefined)
+  assert.equal(sound.attrs.tabindex, undefined)
+  const knob = sound.children.find((child) => child.className === 'index__sound-knob')
+  assert.equal(knob.attrs['aria-hidden'], 'true')
+})
+
+test('style.css keeps to the palette tokens and adds the touch and focus polish', () => {
+  const css = read('style.css')
+  const components = css.slice(css.indexOf('@layer components'))
+
+  assert.ok(!/#[0-9a-f]{3,8}\b/i.test(components.replace(/color: #(ccc|eee);/g, '')), 'hex colors in components')
+  assert.match(css, /color-scheme: dark/)
+  assert.match(css, /:focus-visible/)
+  assert.match(css, /touch-action: manipulation/)
+})

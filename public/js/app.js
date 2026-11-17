@@ -25,10 +25,9 @@ const [sounds, grooves] = await Promise.all([loadCatalog('/sounds.json'), loadCa
 
 const board = document.getElementById('sounds')
 board?.replaceChildren(
-  ...sounds.map(({ file, name }, index) => {
+  ...sounds.map(({ file, name }) => {
     const sound = document.createElement('shrine-sound')
     sound.className = 'index__sound'
-    sound.tabIndex = 1 + index
     sound.setAttribute('file', file)
     sound.setAttribute('label', name)
     return sound

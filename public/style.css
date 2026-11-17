@@ -50,6 +50,17 @@
     --knob-color-100: hsl(0 0% 67%);
     --content-background-color: hsl(0 0% 7%);
     --padding: 1rem;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 1rem;
+    --radius-1: 2px;
+    --radius-2: 4px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    color-scheme: dark;
+    accent-color: var(--color-red);
   }
 
   @font-face {
@@ -72,7 +83,15 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+  }
+
+  button { touch-action: manipulation; }
 
   body {
     background-color: var(--color-background);
@@ -106,13 +125,13 @@
     width: 100%;
     max-width: 95vw;
     margin: 0.1rem auto;
-    padding: 0 0.5rem 25dvh;
+    padding: var(--safe-top) max(var(--space-2), var(--safe-right)) calc(25dvh + var(--safe-bottom)) max(var(--space-2), var(--safe-left));
     color: var(--color-primary);
   }
 
   .index__shrine {
     box-shadow: 0 0 1rem color-mix(in srgb, var(--shrine-background) 70%, transparent);
-    border-radius: 2px;
+    border-radius: var(--radius-1);
     border-color: var(--shrine-border-color);
     background:
       radial-gradient(color-mix(in srgb, var(--shrine-border-color) 25%, transparent) 15%, transparent 16%) 0 0,
@@ -132,8 +151,8 @@
 
     & span {
       width: 100%;
-      font-size: 1.5rem;
-      padding: 0.75rem 1rem 0.5rem;
+      font-size: clamp(1.25rem, 0.9rem + 1.5vw, 1.5rem);
+      padding: 0.75rem var(--space-3) var(--space-2);
       display: inline-block;
       background-color: var(--color-background);
       letter-spacing: 0.2rem;
@@ -168,11 +187,6 @@
     align-items: center;
     transition: border 0.2s;
 
-    &:focus {
-      outline: 2px solid var(--color-red);
-      z-index: 1;
-    }
-
     &:hover .index__sound-name {
       border-style: inset;
       border-color: color-mix(in srgb, var(--knob-color) 75%, transparent);
@@ -181,11 +195,29 @@
     &:hover .index__sound-knob {
       background: var(--knob-hover);
     }
+
+    /* a real press state, since the tap highlight is off */
+    @media not (prefers-reduced-motion: reduce) {
+      & .index__sound-name,
+      & .index__sound-knob {
+        transition: transform 0.08s ease-out, filter 0.08s ease-out, background 0.3s ease-in;
+      }
+
+      &:active .index__sound-name { transform: scale(0.97); }
+      &:active .index__sound-knob { transform: scale(0.92); }
+    }
+
+    &:active .index__sound-name,
+    &:active .index__sound-knob {
+      filter: brightness(1.25);
+    }
   }
 
   .index__sound-name {
     border: 0.4rem outset color-mix(in srgb, var(--knob-color) 25%, transparent);
     background-color: var(--color-background);
+    border-radius: var(--radius-1);
+    box-shadow: inset 0 0 1rem color-mix(in srgb, var(--color-red) 12%, transparent);
     min-height: 3.6rem;
     hyphens: auto;
     line-height: 1.1;
@@ -197,7 +229,8 @@
     height: 100%;
     text-align: center;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    text-wrap: balance;
+    font-size: clamp(0.8rem, 0.72rem + 0.3vw, 0.9rem);
     user-select: none;
     cursor: pointer;
   }
@@ -210,6 +243,7 @@
     );
 
     border-radius: 50%;
+    flex: none;
     margin: 0 auto 1rem;
     transition: background 0.3s ease-in;
     height: 2rem;
@@ -226,7 +260,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 4rem 0;
     padding: 1rem;
-    border-radius: 2px;
+    border-radius: var(--radius-1);
     background-color: var(--content-background-color);
 
     & > h2 {
@@ -266,6 +300,7 @@
     box-shadow: 0 0 0.05em var(--knob-color-100);
     left: 0;
     width: 100%;
+    padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
   }
 
   /* <shrine-groove>: the playing row owns an <audio>, so :has(> audio) is the state */
@@ -284,7 +319,7 @@
       padding: 0;
       line-height: 2rem;
       width: 100%;
-      outline: 0;
+      outline-offset: -2px;
 
       & > span {
         display: flex;
