@@ -87,36 +87,6 @@ test('keeps the headline, catalogs and groove wiring unchanged', () => {
   assert.match(app, /loadCatalog\('\/grooves\.json'\)/)
 })
 
-test('every sound is one focusable named button; the knob is decorative', async () => {
-  class FakeElement {
-    children = []
-    attrs = {}
-    className = ''
-    textContent = ''
-    hasChildNodes () { return this.children.length > 0 }
-    getAttribute (name) { return this.attrs[name] ?? null }
-    setAttribute (name, value) { this.attrs[name] = value }
-    append (...nodes) { this.children.push(...nodes) }
-    addEventListener () {}
-  }
-  globalThis.HTMLElement = FakeElement
-  globalThis.customElements = { define () {} }
-  globalThis.document = { createElement: (type) => Object.assign(new FakeElement(), { type }) }
-
-  const { ShrineSound } = await import('../public/js/shrine-sound.js')
-  const sound = new ShrineSound()
-  sound.setAttribute('label', 'Gude Laune')
-  sound.connectedCallback()
-
-  const buttons = sound.children.filter((child) => child.type === 'button')
-  assert.equal(buttons.length, 1)
-  assert.equal(buttons[0].textContent, 'Gude Laune')
-  assert.equal(buttons[0].attrs.tabindex, undefined)
-  assert.equal(sound.attrs.tabindex, undefined)
-  const knob = sound.children.find((child) => child.className === 'index__sound-knob')
-  assert.equal(knob.attrs['aria-hidden'], 'true')
-})
-
 test('style.css keeps to the palette tokens and adds the touch and focus polish', () => {
   const css = read('style.css')
   const components = css.slice(css.indexOf('@layer components'))

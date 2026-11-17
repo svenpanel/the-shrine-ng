@@ -124,3 +124,17 @@ test('contextmenu plus a hold in one gesture shares only once', () => {
   on.contextmenu({ preventDefault () {} })
   assert.equal(calls.share, 1)
 })
+
+test('every sound is one focusable named button; the knob is decorative', () => {
+  const sound = new ShrineSound()
+  sound.setAttribute('label', 'Gude Laune')
+  sound.connectedCallback()
+
+  const buttons = sound.children.filter((child) => child.type === 'button')
+  assert.equal(buttons.length, 1)
+  assert.equal(buttons[0].textContent, 'Gude Laune')
+  assert.equal(buttons[0].attrs.tabindex, undefined)
+  assert.equal(sound.attrs.tabindex, undefined)
+  const knob = sound.children.find((child) => child.className === 'index__sound-knob')
+  assert.equal(knob.attrs['aria-hidden'], 'true')
+})

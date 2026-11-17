@@ -128,11 +128,18 @@ test('shell lists every css, js and font file the page ships', async () => {
   await worker.install()
   const shell = [...worker.store.get('shell-dev').keys()]
 
+  // apple-touch-icon and the splash images stay out: iOS fetches them itself at add-to-home
+  const html = readFileSync(join(publicDir, 'index.html'), 'utf8')
+  const referenced = [/<link rel="stylesheet" href="([^"]+)"/, /<script type="module" src="([^"]+)"/, /<link rel="icon" href="([^"]+)"/, /<link rel="manifest" href="([^"]+)"/]
+    .map((pattern) => html.match(pattern)?.[1])
+  const manifest = JSON.parse(readFileSync(join(publicDir, 'manifest.webmanifest'), 'utf8'))
   const expected = [
-    '/style.css',
+    ...referenced,
+    ...manifest.icons.map((icon) => `/${icon.src}`),
     ...readdirSync(join(publicDir, 'js')).map((file) => `/js/${file}`),
     ...readdirSync(join(publicDir, 'fonts', 'Keania_One')).filter((f) => /\.(woff2|ttf)$/.test(f)).map((f) => `/fonts/Keania_One/${f}`)
   ]
+  assert.ok(referenced.every(Boolean), 'index.html references')
   for (const url of expected) assert.ok(shell.includes(url), url)
   for (const url of shell) assert.ok(existsSync(join(publicDir, url === '/' ? 'index.html' : url)), `${url} exists`)
 })
