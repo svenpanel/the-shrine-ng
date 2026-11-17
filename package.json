@@ -16,7 +16,7 @@
     "test": "node --test 'test/*.test.js'"
   },
   "dependencies": {
-    "@vite-pwa/nuxt": "^1.1.1",
+    "@vite-pwa/nuxt": "^2.0.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^4.6.4"
   },
