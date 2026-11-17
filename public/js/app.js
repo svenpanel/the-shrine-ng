@@ -5,7 +5,7 @@ import './shrine-groove.js'
 
 // Register first: a failed catalog fetch must not keep the offline worker from installing.
 // A new worker takes over via skipWaiting; reload so the page matches it, but never mid-sound:
-// wait until playback pauses or ends (media events do not bubble, hence capture) or the tab is hidden.
+// wait until playback pauses or ends (media events do not bubble, hence capture) or the tab is hidden with nothing playing.
 if ('serviceWorker' in navigator) {
   const hadController = Boolean(navigator.serviceWorker.controller)
   let updateReady = false
@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator) {
     reloadWhenIdle()
   })
   document.addEventListener('pause', reloadWhenIdle, true)
-  document.addEventListener('visibilitychange', () => { if (updateReady && document.hidden) location.reload() })
+  document.addEventListener('visibilitychange', () => { if (document.hidden) reloadWhenIdle() })
   navigator.serviceWorker.register('/sw.js').catch((error) => console.warn('service worker', error))
 }
 
